@@ -34,7 +34,6 @@ public class TheatreInfo {
 	@Produces
 	@Named
 	public Collection<Seat> getSeats() {
-		logger.info("Seats Counts is : " + seats.size());
 		return Lists.newArrayList(seats);
 	}
 
