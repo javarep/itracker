@@ -33,6 +33,7 @@ public class TheatreSetupService {
     @PostConstruct
     public void initNewSeatType() {
         newSeatType = new SeatType();
+        newSeatType.setDescription("12312321312");
     }
 
     public String createTheatre() {
