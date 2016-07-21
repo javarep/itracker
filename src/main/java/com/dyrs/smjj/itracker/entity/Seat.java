@@ -1,49 +1,64 @@
 package com.dyrs.smjj.itracker.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import java.io.Serializable;
+
+
 /**
- * Seat is immutable. In order to book use getBookedSeat() which sets the booked
- * parameter to true and place it in the seats store.
+ * The persistent class for the seat database table.
  */
-public class Seat {
+@Entity
+public class Seat implements Serializable {
 
-    private final int id;
-    private final String name;
-    private final int price;
-    private final boolean booked;
+    private static final long serialVersionUID = 89897231L;
 
-    public Seat(int id, String name, int price) {
-        this(id, name, price, false);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private boolean booked;
+
+    //bi-directional many-to-one association to SeatType
+    @ManyToOne
+    @JoinColumn(name = "seat_id")
+    private SeatType seatType;
+
+    public Seat() {
+        // empty for jpa
     }
 
-    private Seat(int id, String name, int price, boolean booked) {
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
         this.id = id;
-        this.name = name;
-        this.price = price;
+    }
+
+    public boolean getBooked() {
+        return this.booked;
+    }
+
+    public void setBooked(boolean booked) {
         this.booked = booked;
     }
 
-    public Seat getBookedSeat() {
-        return new Seat(getId(), getName(), getPrice(), true);
+    public SeatType getSeatType() {
+        return this.seatType;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public boolean isBooked() {
-        return booked;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPrice() {
-        return price;
+    public void setSeatType(SeatType seatType) {
+        this.seatType = seatType;
     }
 
     @Override
     public String toString() {
-        return "Seat [id=" + id + ", name=" + name + ", price=" + price + ", booked=" + booked + "]";
+        return "Seat [id=" + id + ", booked=" + booked + ", seatType="
+                + seatType + "]";
     }
 }
