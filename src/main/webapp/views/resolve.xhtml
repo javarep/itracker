@@ -9,8 +9,6 @@
 			<h2>问题清单</h2>
 		</div>
 
-		<h3>Money: $ #{bookerService.money}</h3>
-
 		<h:form id="reg">
 
 
@@ -19,32 +17,32 @@
 				errorClass="alert alert-error" infoClass="alert alert-success"
 				warnClass="alert alert-warning" globalOnly="true" />
 
-			<h:commandButton id="restart" action="#{theatreSetupService.restart}"
-				value="Restart Application" class="btn btn-default" />
-
-			<h:dataTable var="seat" value="#{seats}"
-				rendered="#{not empty seats}"
+			<h:dataTable var="issue" value="#{resolveIssues}"
+				rendered="#{not empty resolveIssues}"
 				styleClass="table table-hover table-striped ">
 
 				<h:column>
 					<f:facet name="header">Id</f:facet>
-                    #{seat.id}
-                </h:column>
-
-				<h:column>
-					<f:facet name="header">Description</f:facet>
-                    #{seat.seatType.description}
+                    #{issue.id}
                 </h:column>
 				<h:column>
-					<f:facet name="header">Price</f:facet>
-                    #{seat.seatType.price}$
+					<f:facet name="header">单号</f:facet>
+                    #{issue.orderNo}
                 </h:column>
 				<h:column>
-					<f:facet name="header">Position</f:facet>
-                    #{seat.seatType.position.label}
+					<f:facet name="header">问题描述</f:facet>
+                    #{issue.content}
                 </h:column>
 				<h:column>
-					<f:facet name="header">Booked</f:facet>
+					<f:facet name="header">提交人</f:facet>
+                    #{issue.user.name}
+                </h:column>
+				<h:column>
+					<f:facet name="header">提交时间</f:facet>
+                    #{issue.orderDate}
+                </h:column>
+				<h:column>
+					<f:facet name="header">状态</f:facet>
 					<span class="glyphicon glyphicon-#{seat.booked ? 'ok' :'remove'}"></span>
 				</h:column>
 				<h:column>
@@ -52,7 +50,7 @@
 					<h:commandButton id="book"
 						action="#{bookerService.bookSeat(seat.id, seat.seatType.price)}"
 						disabled="#{seat.booked}" class="btn btn-primary"
-						value="#{seat.booked ? 'Reserved' : 'Book'}" />
+						value="#{seat.booked ? 'Reserved' : '处理'}" />
 
 				</h:column>
 

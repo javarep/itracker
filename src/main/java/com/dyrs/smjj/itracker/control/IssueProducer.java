@@ -17,19 +17,27 @@ public class IssueProducer {
 	@Inject
 	private IssueDao issueDao;
 
-	private List<Issue> issues;
+	private List<Issue> reportIssues;
+	private List<Issue> resolveIssues;
 
 	@PostConstruct
 	public void retriveAllIssues() {
-		issues = issueDao.findAll();
+		reportIssues = issueDao.findAll();
+		resolveIssues = issueDao.findAll();
 	}
 
 	@Produces
 	@Named
-	public List<Issue> getIssues() {
-		return issues;
+	public List<Issue> getReportIssues() {
+		return reportIssues;
 	}
-
+	
+	@Produces
+	@Named
+	public List<Issue> getResolveIssues() {
+		return resolveIssues;
+	}
+	
 	public void onListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Issue member) {
 		retriveAllIssues();
 	}

@@ -1,5 +1,5 @@
 package com.dyrs.smjj.itracker.entity;
 
 public enum Category {
-	HDS, A6;
+	DIM, HDS, OCRM, E2020;
 }

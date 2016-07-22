@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>登录</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<h:outputStylesheet name="/webjars/bootstrap/3.2.0/css/bootstrap.css" />
+	<h:outputStylesheet
+		name="/webjars/bootstrap/3.2.0/css/bootstrap-theme.css" />
+
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+	<style>
+body {
+	padding-top: 60px;
+}
+</style>
+</h:head>
+<body>
+	<div class="container mycenter" style="max-width:530px;">
+		<h:form styleClass="form-horizontal well" id="login-form">
+			<h3 class="col-sm-offset-1">登录</h3>
+			<div class="form-group" title="用户名：必填">
+				<h:outputLabel styleClass="col-sm-2 control-label" for="username">用户名 *</h:outputLabel>
+				<div class="col-sm-10">
+					<h:inputText id="username" styleClass="form-control"
+						p:placeholder="请输入用户名" p:required="true"
+						value="#{loginBean.username}" required="true" />
+					<h:message for="username" styleClass="text-danger" />
+				</div>
+			</div>
+			<div class="form-group" title="密码：必填">
+				<h:outputLabel styleClass="col-sm-2 control-label" for="password">密&nbsp;&nbsp;码 *</h:outputLabel>
+				<div class="col-sm-10">
+					<h:inputSecret id="password" styleClass="form-control"
+						p:placeholder="请输入密码" p:required="true"
+						value="#{loginBean.password}" required="true" />
+					<p class="text-danger">
+						<h:outputText value="#{loginBean.msg}" />
+					</p>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-2 pull-left"
+					style="margin-bottom: 1%;">
+					<h:commandButton value="登录" action="#{loginBean.login}"
+						styleClass="btn btn-primary" />
+				</div>
+			</div>
+		</h:form>
+	</div>
+	<div>
+		<footer>
+		<p class="text-muted">&copy; Company 2016 东易日盛家居装饰集团股份有限公司</p>
+		</footer>
+
+	</div>
+
+	<h:outputScript name="/webjars/jquery/1.11.0/jquery.js" />
+	<h:outputScript name="/webjars/bootstrap/3.2.0/js/bootstrap.js" />
+</body>
+</html>

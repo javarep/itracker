@@ -24,32 +24,43 @@
 									</h:selectOneMenu>
 								</div>
 							</div>
-							<div class="form-group">
+							<div
+								class="form-group has-feedback #{!qq.valid? 'has-error' : ''}">
 								<label for="qq" class="col-md-2 control-label">QQ号</label>
 								<div class="col-md-4">
 									<h:inputText id="qq" value="#{newIssue.QQ}"
-										p:placeholder="输入QQ号" class="form-control" binding="#{QQ}" />
+										p:placeholder="输入QQ号" class="form-control" binding="#{qq}" />
 								</div>
+								<span
+									class="#{!qq.valid ? 'glyphicon glyphicon-remove form-control-feedback' : ''}" />
+								<h:message for="qq" errorClass="control-label has-error" />
 							</div>
-							<div class="form-group">
+							<div
+								class="form-group has-feedback #{!mobile.valid? 'has-error' : ''}">
 								<label for="mobile" class="col-md-2 control-label">手机</label>
 								<div class="col-md-6">
 									<h:inputText id="mobile" value="#{newIssue.mobile}"
 										p:placeholder="输入手机号" class="form-control" binding="#{mobile}" />
 								</div>
+								<span
+									class="#{!mobile.valid ? 'glyphicon glyphicon-remove form-control-feedback' : ''}" />
+								<h:message for="mobile" errorClass="control-label has-error" />
 							</div>
-							<div class="form-group">
+							<div
+								class="form-group has-feedback #{!content.valid? 'has-error' : ''}">
 								<label for="content" class="col-md-2 control-label">描述</label>
 								<div class="col-md-6">
 									<h:inputTextarea id="content" value="#{newIssue.content}"
-										p:placeholder="输入问题描述" class="form-control" binding="#{content}" />
+										p:placeholder="输入问题描述" class="form-control"
+										binding="#{content}" />
 								</div>
+								<span
+									class="#{!content.valid ? 'glyphicon glyphicon-remove form-control-feedback' : ''}" />
+								<h:message for="content" errorClass="control-label has-error" />
 							</div>
 							<div class="form-group">
-
-								<h:commandButton id="Add"
-									action="#{theatreSetupService.addNewSeats}" value="提交"
-									styleClass="btn btn-primary center-block" />
+								<h:commandButton id="Add" action="#{issueService.addNewIssus}"
+									value="提交" styleClass="btn btn-primary center-block" />
 							</div>
 							<h:messages styleClass="messages"
 								style="list-style: none; padding:0; margin:0;"
@@ -64,39 +75,35 @@
 						<div class="panel-heading">
 							<h2 class="panel-title">我的问题</h2>
 						</div>
-						<div class="panel-body">
-							<h:form id="reg2">
-								<h:commandButton id="Finish"
-									action="#{theatreSetupService.createTheatre}"
-									value="Finalize the theatre setup"
-									styleClass="btn btn-default  btn-block" />
-							</h:form>
-						</div>
-						<h:panelGroup rendered="#{empty seatTypes}">
-							<em>No Seats Added.</em>
+						<h:panelGroup rendered="#{empty reportIssues}">
+							<em>还没有提过问题.</em>
 						</h:panelGroup>
-						<h:dataTable var="seatType" value="#{seatTypes}"
-							rendered="#{not empty seatTypes}"
+						<h:dataTable var="issue" value="#{reportIssues}"
+							rendered="#{not empty reportIssues}"
 							styleClass="table table-hover table-striped ">
 							<h:column>
 								<f:facet name="header">Id</f:facet>
-                            #{seatType.id}
+                            #{issue.id}
                         </h:column>
 							<h:column>
-								<f:facet name="header">Name</f:facet>
-                            #{seatType.description}
+								<f:facet name="header">详细说明</f:facet>
+                            #{issue.content}
                         </h:column>
 							<h:column>
-								<f:facet name="header">Position</f:facet>
-                            #{seatType.position.label}
+								<f:facet name="header">状态</f:facet>
+                            #{issue.status.name()}
                         </h:column>
 							<h:column>
-								<f:facet name="header">Price</f:facet>
-                            $ #{seatType.price}
+								<f:facet name="header">解决人</f:facet>
+                            #{issue.solvedBy.name}
                         </h:column>
 							<h:column>
-								<f:facet name="header">Quantity</f:facet>
-                            #{seatType.quantity}
+								<f:facet name="header">解决时间</f:facet>
+                            #{issue.solvedOn}
+                        </h:column>
+							<h:column>
+								<f:facet name="header">解决说明</f:facet>
+                            #{issue.solvedComment}
                         </h:column>
 						</h:dataTable>
 
@@ -109,42 +116,9 @@
 					<div class="panel-heading">
 						<h2 class="panel-title">问题集</h2>
 					</div>
-					<div class="panel-body">
-						<h:form id="reg3">
-							<h:commandButton id="Finish"
-								action="#{theatreSetupService.createTheatre}"
-								value="Finalize the theatre setup"
-								styleClass="btn btn-default  btn-block" />
-						</h:form>
+					<div>
+						<SPAN>此处占位</SPAN>
 					</div>
-					<h:panelGroup rendered="#{empty seatTypes}">
-						<em>No Seats Added.</em>
-					</h:panelGroup>
-					<h:dataTable var="seatType" value="#{seatTypes}"
-						rendered="#{not empty seatTypes}"
-						styleClass="table table-hover table-striped ">
-						<h:column>
-							<f:facet name="header">Id</f:facet>
-                            #{seatType.id}
-                        </h:column>
-						<h:column>
-							<f:facet name="header">Name</f:facet>
-                            #{seatType.description}
-                        </h:column>
-						<h:column>
-							<f:facet name="header">Position</f:facet>
-                            #{seatType.position.label}
-                        </h:column>
-						<h:column>
-							<f:facet name="header">Price</f:facet>
-                            $ #{seatType.price}
-                        </h:column>
-						<h:column>
-							<f:facet name="header">Quantity</f:facet>
-                            #{seatType.quantity}
-                        </h:column>
-					</h:dataTable>
-
 				</div>
 			</div>
 		</div>
