@@ -2,10 +2,14 @@ package com.dyrs.smjj.itracker.entity;
 
 import java.util.List;
 
+import javax.persistence.ManyToOne;
+
 public class OrderBase extends Base {
 	private String orderNo;
 	private StatusEnum status;
 	private List<StatusHis> statusHis;
+	
+	@ManyToOne
 	private User user;
 
 	public String getOrderNo() {

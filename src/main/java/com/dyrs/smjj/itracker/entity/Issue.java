@@ -1,16 +1,54 @@
 package com.dyrs.smjj.itracker.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Issue extends OrderBase {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+@Entity
+public class Issue extends OrderBase implements Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	@NotNull
 	private String QQ;
+
+	@NotNull
 	private String mobile;
+
 	private String title;
+
+	@NotNull
+	@Size(min = 10, message = "不能少于10个字")
 	private String Content;
+
+	@OneToMany
 	private List<Attachment> attachments;
+
+	@OneToMany
 	private List<Comment> comments;
-	private String assignTo;
+
+	private Category category;
+
+	@ManyToOne
 	private User solvedBy;
+
 	private String solvedComment;
 
 	public String getQQ() {
@@ -61,14 +99,6 @@ public class Issue extends OrderBase {
 		this.comments = comments;
 	}
 
-	public String getAssignTo() {
-		return assignTo;
-	}
-
-	public void setAssignTo(String assignTo) {
-		this.assignTo = assignTo;
-	}
-
 	public User getSolvedBy() {
 		return solvedBy;
 	}
@@ -83,5 +113,13 @@ public class Issue extends OrderBase {
 
 	public void setSolvedComment(String solvedComment) {
 		this.solvedComment = solvedComment;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 }
