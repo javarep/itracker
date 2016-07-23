@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<h:form id="form">
+		<rich:messages />
+		<rich:extendedDataTable value="#{reportIssues}" var="issue" id="table"
+			frozenColumns="2" selectionMode="none">
+			<f:facet name="noData">
+                没有符合条件的数据
+            </f:facet>
+			<!-- <rich:column>
+				<f:facet name="header">
+					<h:outputText value="序号" />
+				</f:facet>
+				<h:outputText value="#{issue.id}" />
+			</rich:column> -->
+			<rich:column filterValue="#{categoryFilter}"
+				filterExpression="#{fn:containsIgnoreCase(issue.category, categoryFilter)}"
+				filterType="custom">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="类别 " />
+						<h:selectOneMenu value="#{categoryFilter}">
+							<f:selectItems value="#{['DIM','HDS','OCRM','2020']}" />
+							<a4j:ajax render="table" execute="@this" event="change" />
+						</h:selectOneMenu>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText value="#{issue.category}" />
+			</rich:column>
+
+			<rich:column width="200px;">
+				<f:facet name="header">
+					<h:outputText value="问题描述" />
+				</f:facet>
+				<h:outputText value="#{issue.content}" escape="false"/>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="状态" />
+				</f:facet>
+				<h:outputText value="#{issueService.getStatus(issue.status)}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="解决人" />
+				</f:facet>
+				<h:outputText value="#{issue.solvedBy}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="解决时间" />
+				</f:facet>
+				<h:outputText value="#{issue.solvedOn}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="解决说明" />
+				</f:facet>
+				<h:outputText value="#{issue.solvedComment}" />
+			</rich:column>
+		</rich:extendedDataTable>
+	</h:form>
+</ui:composition>

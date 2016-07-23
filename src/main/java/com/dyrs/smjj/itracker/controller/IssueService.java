@@ -2,6 +2,7 @@ package com.dyrs.smjj.itracker.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Event;
@@ -12,10 +13,14 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jsoup.Jsoup;
+
+import com.dyrs.smjj.itracker.control.IssueApplication;
 import com.dyrs.smjj.itracker.control.IssueDao;
 import com.dyrs.smjj.itracker.entity.Category;
 import com.dyrs.smjj.itracker.entity.Issue;
 import com.dyrs.smjj.itracker.entity.StatusEnum;
+import com.dyrs.smjj.itracker.filter.LoginBean;
 
 @Model
 public class IssueService {
@@ -24,6 +29,12 @@ public class IssueService {
 
 	@Inject
 	private IssueDao issueDao;
+
+	@Inject
+	private IssueApplication application;
+
+	@Inject
+	private LoginBean loginBean;
 
 	@Inject
 	private Event<Issue> issueEventSrc;
@@ -38,14 +49,34 @@ public class IssueService {
 		newIssue.setStatus(StatusEnum.Waiting);
 	}
 
-	public List<Category> getCategories() {
-		return Arrays.asList(Category.values());
+	public String getIssues() throws Exception {
+		Map<String, Long> map = application.getWaitingIssue();
+		String key = loginBean.getCategory();
+		if (map.containsKey(key)) {
+			long id = map.get(key);
+			return issueDao.find(id).getContent();
+		}
+		throw new Exception();
+	}
+
+	public String getMessage() {
+		Map<String, Long> map = application.getWaitingIssue();
+		String key = loginBean.getCategory();
+		if (map.containsKey(key)) {
+			long id = map.get(key);
+			map.remove(key);
+			String content = issueDao.find(id).getContent();
+			String plain = Jsoup.parse(content).text();
+			return plain;
+		}
+
+		return null;
 	}
 
 	public void addNewIssus() throws Exception {
 		try {
 			createIssue(newIssue);
-
+			application.getWaitingIssue().put(newIssue.getCategory(), newIssue.getId());
 			final FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "OK!", "问题提交成功");
 			facesContext.addMessage(null, m);
 			initNewIssue();
@@ -53,6 +84,20 @@ public class IssueService {
 			final String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Error while saving data");
 			facesContext.addMessage(null, m);
+		}
+	}
+
+	public String getStatus(StatusEnum status) {
+		switch (status) {
+		case Waiting:
+			return "等待处理";
+		case Processing:
+			return "处理中";
+		case Completed:
+			return "处理完成";
+
+		default:
+			return "未知";
 		}
 	}
 

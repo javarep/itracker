@@ -3,21 +3,55 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	template="/WEB-INF/templates/default.xhtml">
+	template="/WEB-INF/templates/default.xhtml"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
 	<ui:define name="content">
+		<script type="text/javascript">
+		// request permission on page load
+		document.addEventListener('DOMContentLoaded', function () {
+		  if (Notification.permission !== "granted")
+		    Notification.requestPermission();
+		});
+
+		function notifyMe(data) {
+		  if (!Notification) {
+		    alert('Desktop notifications not available in your browser. Try Chromium.'); 
+		    return;
+		  }
+
+		  if (Notification.permission !== "granted")
+		    Notification.requestPermission();
+		  else {
+		    var notification = new Notification('有新的问题', {
+		      icon: '../resources/images/logo.png',
+		      body: $("#message").val(),
+		    });
+
+		    notification.onclick = function () {
+		      window.open(window.location.href);      
+		    }; 
+		  }
+		}
+
+		var source = new EventSource('serverevents');
+        source.onmessage = function(event) {
+           notifyMe(even.data);
+        };
+		</script>
 		<div class="page-header">
 			<h2>问题清单</h2>
 		</div>
-
+		<a4j:poll interval="5000" oncomplete="notifyMe(event)"
+			render="poll,grid,message" action="#{issueService.getIssues}" />
+		<h:inputHidden value="#{issueService.getMessage()}" id="message" />
 		<h:form id="reg">
-
-
 			<h:messages styleClass="messages"
 				style="list-style: none; padding:0; margin:0;"
 				errorClass="alert alert-error" infoClass="alert alert-success"
 				warnClass="alert alert-warning" globalOnly="true" />
 
-			<h:dataTable var="issue" value="#{resolveIssues}"
+			<h:dataTable id="grid" var="issue" value="#{resolveIssues}"
 				rendered="#{not empty resolveIssues}"
 				styleClass="table table-hover table-striped ">
 
@@ -35,7 +69,7 @@
                 </h:column>
 				<h:column>
 					<f:facet name="header">提交人</f:facet>
-                    #{issue.user.name}
+                    #{issue.userName}
                 </h:column>
 				<h:column>
 					<f:facet name="header">提交时间</f:facet>

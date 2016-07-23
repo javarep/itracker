@@ -4,9 +4,23 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/WEB-INF/templates/default.xhtml"
-	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
 	<ui:define name="content">
+		<style type="text/css">
+.form-horizontal .form-group {
+	margin-top: 8px;
+}
+</style>
 		<h3 style="color: red">为了能够及时与您进行问题沟通，请您保持QQ在线，电话畅通。</h3>
+		<f:metadata>
+			<f:viewParam name="qq" value="#{newIssue.QQ}" />
+			<f:viewParam name="mobile" value="#{newIssue.mobile}" />
+			<f:viewParam name="department" value="#{newIssue.department}" />
+			<f:viewParam name="job" value="#{newIssue.job}" />
+			<f:viewParam name="username" value="#{newIssue.userName}" />
+		</f:metadata>
 		<div class="row">
 			<div class="col-md-8">
 				<div class="panel panel-default">
@@ -15,57 +29,110 @@
 					</div>
 					<div class="panel-body">
 						<h:form id="reg" role="form" class="form-horizontal">
-							<div class="form-group">
-								<label for="category" class="col-md-2 control-label">类别</label>
-								<div class="col-md-4">
+							<div class="form-inline">
+								<div class="form-group col-md-4">
+									部门:
+									<h:inputText id="department" value="#{newIssue.department}"
+										class="form-control" />
+								</div>
+								<div class="form-group col-md-4">
+									岗位:
+									<h:inputText id="job" value="#{newIssue.job}"
+										class="form-control" />
+								</div>
+								<div class="form-group col-md-4">
+									姓名:
+									<h:inputText id="userName" value="#{newIssue.userName}"
+										class="form-control" />
+								</div>
+								<div class="form-group" style="margin-left: 6px;">
+									<h:commandButton id="Add" action="#{issueService.addNewIssus}"
+										value="问题提报" styleClass="btn btn-primary center-block" />
+								</div>
+							</div>
+							<div class="form-inline">
+								<div class="form-group col-md-6">
+									类别:
 									<h:selectOneMenu value="#{newIssue.category}" id="category"
 										class="form-control">
-										<f:selectItems value="#{issueService.categories}" />
+										<f:selectItems value="#{['DIM','HDS','OCRM','2020']}" />
 									</h:selectOneMenu>
 								</div>
+								<div class="form-group col-md-6">
+									运维工程师:
+									<h:outputText id="engineer" value="贾子博" class="form-control"
+										style="border:0px;" />
+								</div>
 							</div>
-							<div
-								class="form-group has-feedback #{!qq.valid? 'has-error' : ''}">
-								<label for="qq" class="col-md-2 control-label">QQ号</label>
-								<div class="col-md-4">
+							<div class="form-inline">
+								<div
+									class="form-group col-md-6 has-feedback #{!qq.valid? 'has-error' : ''}">
+									QQ*:
 									<h:inputText id="qq" value="#{newIssue.QQ}"
 										p:placeholder="输入QQ号" class="form-control" binding="#{qq}" />
+									<!-- <span
+										class="#{!qq.valid ? 'glyphicon glyphicon-remove form-control-feedback' : ''}" />
+									<h:message for="qq" errorClass="control-label has-error" /> -->
 								</div>
-								<span
-									class="#{!qq.valid ? 'glyphicon glyphicon-remove form-control-feedback' : ''}" />
-								<h:message for="qq" errorClass="control-label has-error" />
-							</div>
-							<div
-								class="form-group has-feedback #{!mobile.valid? 'has-error' : ''}">
-								<label for="mobile" class="col-md-2 control-label">手机</label>
-								<div class="col-md-6">
+								<div
+									class="form-group col-md-6 has-feedback #{!mobile.valid? 'has-error' : ''}">
+									手机*:
 									<h:inputText id="mobile" value="#{newIssue.mobile}"
 										p:placeholder="输入手机号" class="form-control" binding="#{mobile}" />
+									<!-- <span
+										class="#{!mobile.valid ? 'glyphicon glyphicon-remove form-control-feedback' : ''}" />
+									<h:message for="mobile" errorClass="control-label has-error" /> -->
 								</div>
-								<span
-									class="#{!mobile.valid ? 'glyphicon glyphicon-remove form-control-feedback' : ''}" />
-								<h:message for="mobile" errorClass="control-label has-error" />
 							</div>
-							<div
-								class="form-group has-feedback #{!content.valid? 'has-error' : ''}">
-								<label for="content" class="col-md-2 control-label">描述</label>
-								<div class="col-md-6">
-									<h:inputTextarea id="content" value="#{newIssue.content}"
+							<div class="form-inline">
+								<div
+									class="form-group col-md-12  has-feedback #{!content.valid? 'has-error' : ''}">
+									描述:
+									<rich:editor id="content" binding="#{content}"
+										toolbar="CustomToolbar" value="#{newIssue.content}">
+
+										<f:facet name="config">
+
+        toolbar_CustomToolbar:
+
+        [
+
+        { name: 'document', items : [ 'NewPage','Preview' ] },
+
+        { name: 'clipboard', items : [ 'Cut','Copy','Paste','-','Undo','Redo' ] },
+
+        { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
+
+        { name: 'insert', items : [ 'Image', 'Flash', 'Table', 'HorizontalRule',
+
+                 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
+
+                '/',
+
+        { name: 'styles', items : [ 'Styles','Format' ] },
+
+        { name: 'basicstyles', items : [ 'Bold','Italic','Strike','-','RemoveFormat' ] },
+
+        { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
+
+        { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+
+        { name: 'tools', items : [ 'Maximize' ] }
+
+        ]
+
+        </f:facet>
+
+									</rich:editor>
+									<!-- <h:inputTextarea id="content" value="#{newIssue.content}"
 										p:placeholder="输入问题描述" class="form-control"
-										binding="#{content}" />
-								</div>
-								<span
+										binding="#{content}" /> -->
+
+									<!-- <span
 									class="#{!content.valid ? 'glyphicon glyphicon-remove form-control-feedback' : ''}" />
-								<h:message for="content" errorClass="control-label has-error" />
+								<h:message for="content" errorClass="control-label has-error" /> -->
+								</div>
 							</div>
-							<div class="form-group">
-								<h:commandButton id="Add" action="#{issueService.addNewIssus}"
-									value="提交" styleClass="btn btn-primary center-block" />
-							</div>
-							<h:messages styleClass="messages"
-								style="list-style: none; padding:0; margin:0;"
-								errorClass="alert alert-error" infoClass="alert alert-success"
-								warnClass="alert alert-warning" globalOnly="true" />
 
 						</h:form>
 					</div>
@@ -75,49 +142,26 @@
 						<div class="panel-heading">
 							<h2 class="panel-title">我的问题</h2>
 						</div>
-						<h:panelGroup rendered="#{empty reportIssues}">
-							<em>还没有提过问题.</em>
-						</h:panelGroup>
-						<h:dataTable var="issue" value="#{reportIssues}"
-							rendered="#{not empty reportIssues}"
-							styleClass="table table-hover table-striped ">
-							<h:column>
-								<f:facet name="header">Id</f:facet>
-                            #{issue.id}
-                        </h:column>
-							<h:column>
-								<f:facet name="header">详细说明</f:facet>
-                            #{issue.content}
-                        </h:column>
-							<h:column>
-								<f:facet name="header">状态</f:facet>
-                            #{issue.status.name()}
-                        </h:column>
-							<h:column>
-								<f:facet name="header">解决人</f:facet>
-                            #{issue.solvedBy.name}
-                        </h:column>
-							<h:column>
-								<f:facet name="header">解决时间</f:facet>
-                            #{issue.solvedOn}
-                        </h:column>
-							<h:column>
-								<f:facet name="header">解决说明</f:facet>
-                            #{issue.solvedComment}
-                        </h:column>
-						</h:dataTable>
-
+						<ui:include src="myReported.xhtml" />
 					</div>
 				</div>
 
 			</div>
 			<div class="col-md-4">
-				<div class="panel panel-default">
+				<div class="panel panel-default" style="position: fixed; width: 31%">
 					<div class="panel-heading">
-						<h2 class="panel-title">问题集</h2>
+						<h2 class="panel-title">支持文档</h2>
 					</div>
 					<div>
-						<SPAN>此处占位</SPAN>
+						<ul>
+							<li><a href="http://www.baidu.com">百度</a></li>
+							<li><a href="http://www.qq.com">腾讯</a></li>
+						</ul>
+						<br />
+						<ul>
+							<li><a href="http://www.baidu.com">百度</a></li>
+							<li><a href="http://www.qq.com">腾讯</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>

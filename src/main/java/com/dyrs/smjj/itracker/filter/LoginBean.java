@@ -3,12 +3,13 @@ package com.dyrs.smjj.itracker.filter;
 import java.io.IOException;
 import java.io.Serializable;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class LoginBean implements Serializable {
 
@@ -18,6 +19,16 @@ public class LoginBean implements Serializable {
 	private String password;
 	private String msg;
 	private int count;
+	private String category;
+
+	@Produces
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
 	public int getCount() {
 		return count;
@@ -45,7 +56,7 @@ public class LoginBean implements Serializable {
 	public String logout() {
 		FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("login", null);
-		
+
 		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
 				.getResponse();
 

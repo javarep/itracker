@@ -2,8 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>登录</title>
@@ -28,7 +29,7 @@ body {
 </style>
 </h:head>
 <body>
-	<div class="container mycenter" style="max-width:530px;">
+	<div class="container mycenter" style="max-width: 500px;">
 		<h:form styleClass="form-horizontal well" id="login-form">
 			<h3 class="col-sm-offset-1">登录</h3>
 			<div class="form-group" title="用户名：必填">
@@ -51,7 +52,14 @@ body {
 					</p>
 				</div>
 			</div>
-
+			<div class="form-group" title="分类：必填">
+				<h:outputLabel styleClass="col-sm-2 control-label" for="password">分&nbsp;&nbsp;类 *</h:outputLabel>
+				<div class="col-md-10">
+					<h:selectOneMenu value="#{loginBean.category}" id="category" class="form-control">
+						<f:selectItems value="#{['DIM','HDS','OCRM','2020']}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-2 pull-left"
 					style="margin-bottom: 1%;">
@@ -63,7 +71,8 @@ body {
 	</div>
 	<div>
 		<footer>
-		<p class="text-muted">&copy; Company 2016 东易日盛家居装饰集团股份有限公司</p>
+		<p class="text-muted" style="text-align: center;">&copy; Company
+			2016 东易日盛家居装饰集团股份有限公司</p>
 		</footer>
 
 	</div>

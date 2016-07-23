@@ -55,7 +55,7 @@ public class Issue extends OrderBase implements Serializable {
 	@OneToMany
 	private List<Comment> comments;
 
-	private Category category;
+	private String category;
 
 	@ManyToOne
 	private User solvedBy;
@@ -66,12 +66,37 @@ public class Issue extends OrderBase implements Serializable {
 
 	private String orderNo;
 	private StatusEnum status;
-	
+
+	private String department;
+	private String job;
+	private String userName;
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+	public String getJob() {
+		return job;
+	}
+
+	public void setJob(String job) {
+		this.job = job;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	@Transient
 	private List<StatusHis> statusHis;
-
-	@ManyToOne
-	private User user;
 
 	private Date orderDate;
 
@@ -97,14 +122,6 @@ public class Issue extends OrderBase implements Serializable {
 
 	public void setStatusHis(List<StatusHis> statusHis) {
 		this.statusHis = statusHis;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Date getOrderDate() {
@@ -179,11 +196,11 @@ public class Issue extends OrderBase implements Serializable {
 		this.solvedComment = solvedComment;
 	}
 
-	public Category getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 

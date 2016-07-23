@@ -12,13 +12,31 @@
 		of the application -->
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/faces/views/resolve.xhtml</url-pattern>
 	</filter-mapping>
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<!-- Resource Servlet - serves static resources and resources for specific 
+		components -->
+	<servlet>
+		<servlet-name>Resource Servlet</servlet-name>
+		<servlet-class>org.richfaces.webapp.ResourceServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Resource Servlet</servlet-name>
+		<url-pattern>/org.richfaces.resources/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Resource Mapping - resources will be served compressed and packed in 
+		production -->
+	<context-param>
+		<param-name>org.richfaces.resourceMapping.enabled</param-name>
+		<param-value>true</param-value>
+	</context-param>
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>/faces/*</url-pattern>
