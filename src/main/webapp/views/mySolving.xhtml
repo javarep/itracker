@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<h:form id="form">
+		<rich:messages />
+		<rich:extendedDataTable value="#{resolveIssues}" var="issue" id="grid"
+			frozenColumns="2" selectionMode="none">
+			<f:facet name="noData">
+                没有符合条件的数据
+            </f:facet>
+			<rich:column width="150px;">
+				<f:facet name="header">
+					<h:outputText value="单号" />
+				</f:facet>
+				<h:outputText value="#{issue.orderNo}" />
+			</rich:column>
+
+			<rich:column width="300px;">
+				<f:facet name="header">
+					<h:outputText value="问题描述" />
+				</f:facet>
+				<h:outputText value="#{issue.content}" escape="false" />
+			</rich:column>
+			<rich:column width="80px;">
+				<f:facet name="header">
+					<h:outputText value="客户" />
+				</f:facet>
+				<h:outputText value="#{issue.customer}" />
+			</rich:column>
+			<rich:column width="80px;">
+				<f:facet name="header">
+					<h:outputText value="提报人" />
+				</f:facet>
+				<h:outputText value="#{issue.userName}" />
+			</rich:column>
+			<rich:column width="150px;">
+				<f:facet name="header">
+					<h:outputText value="提报时间" />
+				</f:facet>
+				<h:outputText value="#{issue.orderDate}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="状态" />
+				</f:facet>
+				<h:outputText value="#{issueService.getStatus(issue.status)}" />
+			</rich:column>
+			<!-- <rich:column filterValue="#{statusFilter}"
+				filterExpression="#{fn:containsIgnoreCase(issue.status, issueService.getOriStatus(statusFilter))}"
+				filterType="custom" width="150px;">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="状态 " />
+						<h:selectOneMenu value="#{statusFilter}">
+							<f:selectItems value="#{['等待处理','处理中','处理完成']}" />
+							<a4j:ajax render="grid" execute="@this" event="change" />
+						</h:selectOneMenu>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText value="#{issueService.getStatus(issue.status)}" />
+			</rich:column> -->
+			<rich:column width="50px;">
+				<f:facet name="header">
+					<h:outputText value="操作" />
+				</f:facet>
+				<a4j:commandButton action="#{issueService.solveIssue(issue.id)}"
+					rendered="#{issue.status=='Waiting'}" value="处理"
+					oncomplete="location.reload();" />
+				<a4j:commandButton rendered="#{issue.status=='Processing'}"
+					value="完成" action="#{issueService.completeIssue(issue.id,'完成')}"
+					oncomplete="location.reload();">
+					<!-- <rich:componentControl target="confirmation" event="click"
+						operation="show">
+						<f:param value="#{issue.id}" name="id" />
+					</rich:componentControl> -->
+				</a4j:commandButton>
+
+			</rich:column>
+			<rich:column width="50px;">
+				<f:facet name="header">
+					<h:outputText value="移交" />
+				</f:facet>
+				<h:commandButton action="#{issueService.transferIssue('',issue.id)}"
+					disabled="#{issue.status!='Waiting'}" value="移交" />
+			</rich:column>
+		</rich:extendedDataTable>
+	</h:form>
+
+	<h:panelGrid id="complete">
+		<rich:popupPanel id="confirmation" width="450" height="240">
+			<f:facet name="header">确定完成</f:facet>
+			<h:panelGrid>
+				<h:panelGrid>
+					<h:outputLabel>处理意见</h:outputLabel>
+					<h:inputTextarea binding="#{comment}"
+						style="width:430px;height:135px;" />
+				</h:panelGrid>
+				<h:panelGroup>
+					<a4j:commandButton value="确定"
+						action="#{issueService.completeIssue(111,comment.value)}"
+						execute="@this" />
+					<input type="button" value="取消"
+						onclick="#{rich:component('confirmation')}.hide();return false" />
+				</h:panelGroup>
+			</h:panelGrid>
+		</rich:popupPanel>
+	</h:panelGrid>
+</ui:composition>

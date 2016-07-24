@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.dyrs.smjj.itracker.entity.Issue;
+import com.dyrs.smjj.itracker.filter.LoginBean;
 
 @RequestScoped
 public class IssueProducer {
@@ -20,10 +21,13 @@ public class IssueProducer {
 	private List<Issue> reportIssues;
 	private List<Issue> resolveIssues;
 
+	@Inject
+	private LoginBean loginBean;
+
 	@PostConstruct
 	public void retriveAllIssues() {
-		reportIssues = issueDao.findAll();
-		resolveIssues = issueDao.findAll();
+		reportIssues = issueDao.getReportIssues(loginBean.getMobile());
+		resolveIssues = issueDao.getResolveIssues(loginBean.getCategory());
 	}
 
 	@Produces
@@ -31,13 +35,13 @@ public class IssueProducer {
 	public List<Issue> getReportIssues() {
 		return reportIssues;
 	}
-	
+
 	@Produces
 	@Named
 	public List<Issue> getResolveIssues() {
 		return resolveIssues;
 	}
-	
+
 	public void onListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Issue member) {
 		retriveAllIssues();
 	}

@@ -70,6 +70,15 @@ public class Issue extends OrderBase implements Serializable {
 	private String department;
 	private String job;
 	private String userName;
+	private String customer;
+
+	public String getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
 
 	public String getDepartment() {
 		return department;

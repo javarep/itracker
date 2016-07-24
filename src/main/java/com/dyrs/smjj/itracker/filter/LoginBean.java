@@ -6,8 +6,13 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Null;
+
+import com.dyrs.smjj.itracker.control.UserDao;
+import com.dyrs.smjj.itracker.entity.User;
 
 @Named
 @SessionScoped
@@ -20,6 +25,20 @@ public class LoginBean implements Serializable {
 	private String msg;
 	private int count;
 	private String category;
+	private String mobile;
+	@Inject
+	private UserDao userDao;
+
+	private User user;
+
+	@Produces
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	@Produces
 	public String getCategory() {
@@ -44,8 +63,17 @@ public class LoginBean implements Serializable {
 		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
 				.getResponse();
 
+		user = userDao.findByCode(username);
+		if (user == null) {
+			user = new User();
+			user.setCode(username);
+			user.setName(username);
+			user.setPassword(password);
+			userDao.persist(user);
+		}
+
 		try {
-			response.sendRedirect("/itracker");
+			response.sendRedirect("/itracker/faces/views/resolve.xhtml");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,7 +89,7 @@ public class LoginBean implements Serializable {
 				.getResponse();
 
 		try {
-			response.sendRedirect("/itracker");
+			response.sendRedirect("/itracker/faces/views/resolve.xhtml");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,5 +119,14 @@ public class LoginBean implements Serializable {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+
+	@Produces
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 }

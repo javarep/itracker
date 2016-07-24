@@ -42,53 +42,11 @@
 		<div class="page-header">
 			<h2>问题清单</h2>
 		</div>
-		<a4j:poll interval="5000" oncomplete="notifyMe(event)"
+		<a4j:poll interval="5000" oncomplete="notifyMe(event)" enabled="true"
 			render="poll,grid,message" action="#{issueService.getIssues}" />
 		<h:inputHidden value="#{issueService.getMessage()}" id="message" />
 		<h:form id="reg">
-			<h:messages styleClass="messages"
-				style="list-style: none; padding:0; margin:0;"
-				errorClass="alert alert-error" infoClass="alert alert-success"
-				warnClass="alert alert-warning" globalOnly="true" />
-
-			<h:dataTable id="grid" var="issue" value="#{resolveIssues}"
-				rendered="#{not empty resolveIssues}"
-				styleClass="table table-hover table-striped ">
-
-				<h:column>
-					<f:facet name="header">Id</f:facet>
-                    #{issue.id}
-                </h:column>
-				<h:column>
-					<f:facet name="header">单号</f:facet>
-                    #{issue.orderNo}
-                </h:column>
-				<h:column>
-					<f:facet name="header">问题描述</f:facet>
-                    #{issue.content}
-                </h:column>
-				<h:column>
-					<f:facet name="header">提交人</f:facet>
-                    #{issue.userName}
-                </h:column>
-				<h:column>
-					<f:facet name="header">提交时间</f:facet>
-                    #{issue.orderDate}
-                </h:column>
-				<h:column>
-					<f:facet name="header">状态</f:facet>
-					<span class="glyphicon glyphicon-#{seat.booked ? 'ok' :'remove'}"></span>
-				</h:column>
-				<h:column>
-					<f:facet name="header">Action</f:facet>
-					<h:commandButton id="book"
-						action="#{bookerService.bookSeat(seat.id, seat.seatType.price)}"
-						disabled="#{seat.booked}" class="btn btn-primary"
-						value="#{seat.booked ? 'Reserved' : '处理'}" />
-
-				</h:column>
-
-			</h:dataTable>
+			<ui:include src="mySolving.xhtml" />
 		</h:form>
 	</ui:define>
 </ui:composition>

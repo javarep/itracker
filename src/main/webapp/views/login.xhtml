@@ -33,8 +33,8 @@ body {
 		<h:form styleClass="form-horizontal well" id="login-form">
 			<h3 class="col-sm-offset-1">登录</h3>
 			<div class="form-group" title="用户名：必填">
-				<h:outputLabel styleClass="col-sm-2 control-label" for="username">用户名 *</h:outputLabel>
-				<div class="col-sm-10">
+				<h:outputLabel styleClass="col-sm-3 control-label" for="username">用户名 *</h:outputLabel>
+				<div class="col-sm-9">
 					<h:inputText id="username" styleClass="form-control"
 						p:placeholder="请输入用户名" p:required="true"
 						value="#{loginBean.username}" required="true" />
@@ -42,8 +42,8 @@ body {
 				</div>
 			</div>
 			<div class="form-group" title="密码：必填">
-				<h:outputLabel styleClass="col-sm-2 control-label" for="password">密&nbsp;&nbsp;码 *</h:outputLabel>
-				<div class="col-sm-10">
+				<h:outputLabel styleClass="col-sm-3 control-label" for="password">密&nbsp;&nbsp;码 *</h:outputLabel>
+				<div class="col-sm-9">
 					<h:inputSecret id="password" styleClass="form-control"
 						p:placeholder="请输入密码" p:required="true"
 						value="#{loginBean.password}" required="true" />
@@ -53,8 +53,8 @@ body {
 				</div>
 			</div>
 			<div class="form-group" title="分类：必填">
-				<h:outputLabel styleClass="col-sm-2 control-label" for="password">分&nbsp;&nbsp;类 *</h:outputLabel>
-				<div class="col-md-10">
+				<h:outputLabel styleClass="col-sm-3 control-label" for="password">分&nbsp;&nbsp;类 *</h:outputLabel>
+				<div class="col-md-9">
 					<h:selectOneMenu value="#{loginBean.category}" id="category" class="form-control">
 						<f:selectItems value="#{['DIM','HDS','OCRM','2020']}" />
 					</h:selectOneMenu>

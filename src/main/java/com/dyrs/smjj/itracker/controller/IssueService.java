@@ -1,7 +1,8 @@
 package com.dyrs.smjj.itracker.controller;
 
-import java.util.Arrays;
-import java.util.List;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -17,7 +18,7 @@ import org.jsoup.Jsoup;
 
 import com.dyrs.smjj.itracker.control.IssueApplication;
 import com.dyrs.smjj.itracker.control.IssueDao;
-import com.dyrs.smjj.itracker.entity.Category;
+
 import com.dyrs.smjj.itracker.entity.Issue;
 import com.dyrs.smjj.itracker.entity.StatusEnum;
 import com.dyrs.smjj.itracker.filter.LoginBean;
@@ -76,6 +77,8 @@ public class IssueService {
 	public void addNewIssus() throws Exception {
 		try {
 			createIssue(newIssue);
+			// Init UserSession
+			loginBean.setMobile(newIssue.getMobile());
 			application.getWaitingIssue().put(newIssue.getCategory(), newIssue.getId());
 			final FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "OK!", "问题提交成功");
 			facesContext.addMessage(null, m);
@@ -85,6 +88,39 @@ public class IssueService {
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Error while saving data");
 			facesContext.addMessage(null, m);
 		}
+	}
+
+	public String solveIssue(long id) {
+		Issue issue = issueDao.find(id);
+		if (issue.getStatus() == StatusEnum.Waiting) {
+			issue.setStatus(StatusEnum.Processing);
+			issue.setSolvedBy(loginBean.getUser());
+		} else if (issue.getStatus() == StatusEnum.Processing) {
+			issue.setStatus(StatusEnum.Completed);
+			// issue.setSolvedBy(loginBean.getUser());
+			issue.setSolvedOn(new java.util.Date());
+		}
+
+		issueDao.edit(issue);
+		return "success";
+	}
+
+	public String completeIssue(long id, String comment) throws Exception {
+		Issue issue = issueDao.find(id);
+		if (issue.getStatus() == StatusEnum.Processing) {
+			issue.setStatus(StatusEnum.Completed);
+			// issue.setSolvedBy(loginBean.getUser());
+			issue.setSolvedOn(new java.util.Date());
+			issue.setSolvedComment(comment);
+		}
+
+		issueDao.edit(issue);
+
+		return "success";
+	}
+
+	public void transferIssue(String category, long id) {
+
 	}
 
 	public String getStatus(StatusEnum status) {
@@ -101,7 +137,25 @@ public class IssueService {
 		}
 	}
 
+	public StatusEnum getOriStatus(String status) {
+		switch (status) {
+		case "等待处理":
+			return StatusEnum.Waiting;
+		case "处理中":
+			return StatusEnum.Processing;
+		case "处理完成":
+			return StatusEnum.Completed;
+
+		default:
+			return StatusEnum.Waiting;
+		}
+	}
+
 	public void createIssue(Issue issue) throws Exception {
+		DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+		String sdt = df.format(new Date(System.currentTimeMillis()));
+		issue.setOrderNo(issue.getCategory() + sdt);
+		issue.setOrderDate(new java.util.Date());
 		issueDao.persist(issue);
 		issueEventSrc.fire(issue);
 	}

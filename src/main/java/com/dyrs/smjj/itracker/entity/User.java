@@ -29,8 +29,7 @@ public class User extends Base implements Serializable {
 
 	@NotNull
 	private String code;
-	
-	@NotNull
+
 	private String name;
 	
 	@NotNull
