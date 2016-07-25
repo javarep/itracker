@@ -103,7 +103,10 @@ body {
 							<dd>
 								<h:outputText value="#{issueService.currentIssue.customer}" />
 							</dd>
-
+							<dt>公司</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.department}" />
+							</dd>
 							<dt>问题描述</dt>
 							<dd>
 								<h:outputText value="#{issueService.currentIssue.content}"
@@ -121,6 +124,17 @@ body {
 							<dt>提报时间</dt>
 							<dd>
 								<h:outputText value="#{issueService.currentIssue.orderDate}" />
+							</dd>
+							<dt>提报人QQ</dt>
+							<dd>
+								<h:outputLink value="tencent://message/">
+									<h:outputText value="QQ联系" />
+									<f:param name="uin" value="#{issueService.currentIssue.QQ}" />
+								</h:outputLink>
+							</dd>
+							<dt>提报人手机</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.mobile}" />
 							</dd>
 							<dt>解决人</dt>
 							<dd>
