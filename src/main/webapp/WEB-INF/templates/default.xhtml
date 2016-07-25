@@ -128,7 +128,7 @@ body {
 							<dt>提报人QQ</dt>
 							<dd>
 								<h:outputLink value="tencent://message/">
-									<h:outputText value="QQ联系" />
+									<h:outputText value="联系#{issueService.currentIssue.QQ}" />
 									<f:param name="uin" value="#{issueService.currentIssue.QQ}" />
 								</h:outputLink>
 							</dd>
@@ -138,7 +138,7 @@ body {
 							</dd>
 							<dt>解决人</dt>
 							<dd>
-								<h:outputText value="#{issueService.currentIssue.solvedBy}" />
+								<h:outputText value="#{issueService.currentIssue.solvedBy.name}" />
 							</dd>
 							<dt>解决时间</dt>
 							<dd>
