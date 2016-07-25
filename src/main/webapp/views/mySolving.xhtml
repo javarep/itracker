@@ -7,6 +7,11 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	<h:form id="form">
+		<style type="text/css">
+.rf-edt-c {
+	height: 25px;
+}
+</style>
 		<rich:messages />
 		<a4j:jsFunction name="selectRow"
 			oncomplete="#{rich:component('detail')}.show()" render="detailForm">
@@ -14,8 +19,7 @@
 				converter="javax.faces.Long" />
 		</a4j:jsFunction>
 		<rich:extendedDataTable value="#{resolveIssues}" var="issue" id="grid"
-			onrowdblclick="selectRow('#{issue.id}')" frozenColumns="2"
-			selectionMode="none">
+			onrowdblclick="selectRow('#{issue.id}')" selectionMode="none">
 			<f:facet name="noData">
                 没有符合条件的数据
             </f:facet>
@@ -33,13 +37,13 @@
 				<h:outputText value="#{issueService.getOriginString(issue.content)}"
 					escape="false" />
 			</rich:column>
-			<rich:column width="80px;">
+			<rich:column width="60px;">
 				<f:facet name="header">
 					<h:outputText value="客户" />
 				</f:facet>
 				<h:outputText value="#{issue.customer}" />
 			</rich:column>
-			<rich:column width="80px;">
+			<rich:column width="70px;">
 				<f:facet name="header">
 					<h:outputText value="提报人" />
 				</f:facet>
@@ -63,15 +67,15 @@
 				</f:facet>
 				<h:outputText value="#{issue.orderDate}" />
 			</rich:column>
-			<rich:column width="80px;">
+			<!-- <rich:column width="80px;">
 				<f:facet name="header">
 					<h:outputText value="状态" />
 				</f:facet>
 				<h:outputText value="#{issueService.getStatus(issue.status)}" />
-			</rich:column>
-			<!-- <rich:column filterValue="#{statusFilter}"
+			</rich:column> -->
+			<rich:column filterValue="#{statusFilter}"
 				filterExpression="#{fn:containsIgnoreCase(issue.status, issueService.getOriStatus(statusFilter))}"
-				filterType="custom" width="150px;">
+				filterType="custom" width="120px;">
 				<f:facet name="header">
 					<h:panelGroup>
 						<h:outputText value="状态 " />
@@ -82,8 +86,8 @@
 					</h:panelGroup>
 				</f:facet>
 				<h:outputText value="#{issueService.getStatus(issue.status)}" />
-			</rich:column> -->
-			<rich:column width="55px;">
+			</rich:column>
+			<rich:column width="50px;">
 				<f:facet name="header">
 					<h:outputText value="操作" />
 				</f:facet>
@@ -94,7 +98,7 @@
 					onclick="oper('#{issue.id}');return false;" />
 
 			</rich:column>
-			<rich:column width="55px;">
+			<rich:column width="50px;">
 				<f:facet name="header">
 					<h:outputText value="移交" />
 				</f:facet>
