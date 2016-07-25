@@ -10,7 +10,7 @@
 		<class>com.dyrs.smjj.itracker.entity.Attachment</class>
 		<class>com.dyrs.smjj.itracker.entity.Comment</class>
 		<properties>
-			<property name="javax.persistence.schema-generation.database.action" value="create"/>
+			<!-- <property name="javax.persistence.schema-generation.database.action" value="create"/> -->
 		</properties>
 	</persistence-unit>
 </persistence>

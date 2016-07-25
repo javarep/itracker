@@ -49,7 +49,8 @@
 				<f:facet name="header">
 					<h:outputText value="问题描述" />
 				</f:facet>
-				<h:outputText value="#{issue.content}" escape="false" />
+				<h:outputText value="#{issueService.getOriginString(issue.content)}"
+					escape="false" />
 			</rich:column>
 			<rich:column>
 				<f:facet name="header">
@@ -74,6 +75,16 @@
 					<h:outputText value="解决说明" />
 				</f:facet>
 				<h:outputText value="#{issue.solvedComment}" />
+			</rich:column>
+			
+			<rich:column width="55px;">
+				<f:facet name="header">
+					<h:outputText value="操作" />
+				</f:facet>
+				<a4j:commandButton action="#{issueService.reOpenIssue(issue.id)}"
+					rendered="#{issue.status=='Completed'}" value="重开"
+					oncomplete="location.reload();" />
+
 			</rich:column>
 		</rich:extendedDataTable>
 	</h:form>

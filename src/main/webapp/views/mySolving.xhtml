@@ -30,7 +30,8 @@
 				<f:facet name="header">
 					<h:outputText value="问题描述" />
 				</f:facet>
-				<h:outputText value="#{issue.content}" escape="false" />
+				<h:outputText value="#{issueService.getOriginString(issue.content)}"
+					escape="false" />
 			</rich:column>
 			<rich:column width="80px;">
 				<f:facet name="header">
@@ -82,7 +83,7 @@
 				</f:facet>
 				<h:outputText value="#{issueService.getStatus(issue.status)}" />
 			</rich:column> -->
-			<rich:column width="50px;">
+			<rich:column width="55px;">
 				<f:facet name="header">
 					<h:outputText value="操作" />
 				</f:facet>
@@ -93,7 +94,7 @@
 					onclick="oper('#{issue.id}');return false;" />
 
 			</rich:column>
-			<rich:column width="50px;">
+			<rich:column width="55px;">
 				<f:facet name="header">
 					<h:outputText value="移交" />
 				</f:facet>
@@ -144,7 +145,7 @@
 		<a4j:param name="issueid" assignTo="#{issueService.currentIssueId}"
 			converter="javax.faces.Long" />
 	</a4j:jsFunction>
-	<rich:popupPanel id="transfer" width="400" height="150"
+	<rich:popupPanel id="transfer" width="400" height="80"
 		domElementAttachment="form">
 		<f:facet name="header">确定移交</f:facet>
 		<f:facet name="controls">
@@ -161,17 +162,16 @@
 
 					<h:outputLabel class="control-label" for="category">类别: </h:outputLabel>
 					<h:selectOneMenu value="#{category}" id="category"
-						class="form-control">
+						style="width:200px;" class="form-control">
 						<f:selectItems value="#{['DIM','HDS','OCRM','2020']}" />
 					</h:selectOneMenu>
 				</div>
 				<a4j:commandButton class="btn btn-primary" value="移交"
+					style="width:100px;"
 					action="#{issueService.transferIssue(issueService.currentIssueId,category)}"
 					oncomplete="location.reload();" />
 
 			</h:form>
-
-
 		</h:panelGrid>
 	</rich:popupPanel>
 </ui:composition>

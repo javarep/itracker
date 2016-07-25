@@ -26,7 +26,7 @@ public class IssueProducer {
 
 	@PostConstruct
 	public void retriveAllIssues() {
-		reportIssues = issueDao.getReportIssues(loginBean.getMobile());
+		reportIssues = issueDao.getReportIssues(loginBean);
 		resolveIssues = issueDao.getResolveIssues(loginBean.getCategory());
 	}
 

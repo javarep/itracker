@@ -54,6 +54,12 @@ public class IssueService {
 		newIssue.setStatus(StatusEnum.Waiting);
 	}
 
+	public String onLoad() {
+		loginBean.setDepartment(newIssue.getDepartment());
+		loginBean.setUsername(newIssue.getUserName());
+		return "";
+	}
+
 	public String getIssues() throws Exception {
 		Map<String, Long> map = application.getWaitingIssue();
 		String key = loginBean.getCategory();
@@ -76,6 +82,11 @@ public class IssueService {
 		}
 
 		return null;
+	}
+
+	public String getOriginString(String html_string) {
+		String plain = Jsoup.parse(html_string).text();
+		return plain;
 	}
 
 	public String getEngineer(String category) {
@@ -107,6 +118,17 @@ public class IssueService {
 			issue.setStatus(StatusEnum.Completed);
 			// issue.setSolvedBy(loginBean.getUser());
 			issue.setSolvedOn(new java.util.Date());
+		}
+
+		issueDao.edit(issue);
+		return "success";
+	}
+
+	public String reOpenIssue(long id) {
+		Issue issue = issueDao.find(id);
+		if (issue.getStatus() == StatusEnum.Completed) {
+			issue.setStatus(StatusEnum.Waiting);
+			issue.setSolvedBy(loginBean.getUser());
 		}
 
 		issueDao.edit(issue);

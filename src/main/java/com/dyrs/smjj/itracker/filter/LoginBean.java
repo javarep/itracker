@@ -27,6 +27,7 @@ public class LoginBean implements Serializable {
 	private int count;
 	private String category;
 	private String mobile;
+	private String department;
 	@Inject
 	private UserDao userDao;
 
@@ -134,5 +135,13 @@ public class LoginBean implements Serializable {
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 }

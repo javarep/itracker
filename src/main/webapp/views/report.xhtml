@@ -33,6 +33,7 @@
 			<f:viewParam name="customer" value="#{newIssue.customer}"></f:viewParam>
 			<f:viewParam name="username" value="#{newIssue.userName}" />
 			<f:viewParam name="category" value="#{newIssue.category}" />
+			<f:viewAction action="#{issueService.onLoad}" />
 		</f:metadata>
 		<div class="row">
 			<div class="col-md-8">
@@ -64,7 +65,7 @@
 								<div class="form-group col-md-4">
 									<h:outputLabel class="control-label" for="category">类别:</h:outputLabel>
 									<h:selectOneMenu value="#{newIssue.category}" id="category"
-										class="form-control">
+										class="form-control" style="width: 75%;height: 25px;">
 										<f:selectItems value="#{['DIM','HDS','OCRM','2020']}" />
 										<f:ajax event="change" render="engineer" immediate="true" />
 									</h:selectOneMenu>
@@ -84,7 +85,8 @@
 							</div>
 							<div class="form-inline">
 								<div class="form-group col-md-4 #{!qq.valid? 'has-error' : ''}">
-									<h:outputLabel class="control-label" for="qq">Q  Q:</h:outputLabel>
+									<h:outputLabel class="control-label" for="qq"
+										value="Q&#160;&#160;Q:"></h:outputLabel>
 									<h:inputText id="qq" value="#{newIssue.QQ}"
 										p:placeholder="输入QQ号" class="form-control" binding="#{qq}" />
 									<!-- <span

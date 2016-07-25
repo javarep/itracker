@@ -66,7 +66,7 @@ body {
 		</div>
 	</div>
 
-	<div class="container">
+	<div class="container" style="min-width: 1120px;">
 
 		<ui:insert name="content">
             [Template content will be inserted here]
@@ -143,6 +143,10 @@ body {
 							<dt>解决时间</dt>
 							<dd>
 								<h:outputText value="#{issueService.currentIssue.solvedOn}" />
+							</dd>
+							<dt>解决说明</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.solvedComment}" />
 							</dd>
 						</dl>
 
