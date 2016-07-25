@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Null;
 
+import com.dyrs.smjj.itracker.control.IssueApplication;
 import com.dyrs.smjj.itracker.control.UserDao;
 import com.dyrs.smjj.itracker.entity.User;
 
@@ -28,6 +29,9 @@ public class LoginBean implements Serializable {
 	private String mobile;
 	@Inject
 	private UserDao userDao;
+
+	@Inject
+	private IssueApplication application;
 
 	private User user;
 
@@ -71,6 +75,8 @@ public class LoginBean implements Serializable {
 			user.setPassword(password);
 			userDao.persist(user);
 		}
+
+		application.getOnLineSolver().put(category, username);
 
 		try {
 			response.sendRedirect("/itracker/faces/views/resolve.xhtml");

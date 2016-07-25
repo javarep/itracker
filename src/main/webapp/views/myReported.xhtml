@@ -8,8 +8,14 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	<h:form id="form">
 		<rich:messages />
+		<a4j:jsFunction name="selectRow"
+			oncomplete="#{rich:component('detail')}.show()" render="detailForm">
+			<a4j:param name="issueid" assignTo="#{issueService.currentIssueId}"
+				converter="javax.faces.Long" />
+		</a4j:jsFunction>
 		<rich:extendedDataTable value="#{reportIssues}" var="issue" id="table"
-			frozenColumns="2" selectionMode="none">
+			frozenColumns="2" selectionMode="none"
+			onrowdblclick="selectRow('#{issue.id}')">
 			<f:facet name="noData">
                 没有符合条件的数据
             </f:facet>

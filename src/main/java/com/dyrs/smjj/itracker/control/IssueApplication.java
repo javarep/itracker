@@ -20,8 +20,19 @@ public class IssueApplication {
 		this.waitingIssue = waitingIssue;
 	}
 
+	private Map<String, String> onLineSolver;
+
 	@PostConstruct
 	public void Init() {
 		waitingIssue = new HashMap<String, Long>();
+		onLineSolver = new HashMap<String, String>();
+	}
+
+	public Map<String, String> getOnLineSolver() {
+		return onLineSolver;
+	}
+
+	public void setOnLineSolver(Map<String, String> onLineSolver) {
+		this.onLineSolver = onLineSolver;
 	}
 }

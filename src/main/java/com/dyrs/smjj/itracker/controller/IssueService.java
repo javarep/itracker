@@ -40,6 +40,10 @@ public class IssueService {
 	@Inject
 	private Event<Issue> issueEventSrc;
 
+	private long currentIssueId;
+	private String comment;
+	private Issue currentIssue;
+
 	@Produces
 	@Named
 	private Issue newIssue;
@@ -72,6 +76,10 @@ public class IssueService {
 		}
 
 		return null;
+	}
+
+	public String getEngineer(String category) {
+		return application.getOnLineSolver().get(category);
 	}
 
 	public void addNewIssus() throws Exception {
@@ -119,8 +127,13 @@ public class IssueService {
 		return "success";
 	}
 
-	public void transferIssue(String category, long id) {
+	public void transferIssue(long id, String category) {
+		Issue issue = issueDao.find(id);
+		if (issue.getStatus() == StatusEnum.Waiting) {
+			issue.setCategory(category);
+		}
 
+		issueDao.edit(issue);
 	}
 
 	public String getStatus(StatusEnum status) {
@@ -178,4 +191,28 @@ public class IssueService {
 		// This is the root cause message
 		return errorMessage;
 	}
+
+	public long getCurrentIssueId() {
+		return currentIssueId;
+	}
+
+	public void setCurrentIssueId(long currentIssueId) {
+		this.currentIssueId = currentIssueId;
+	}
+
+	public Issue getCurrentIssue() {
+		if (currentIssueId > 0) {
+			return issueDao.find(currentIssueId);
+		}
+		return newIssue;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 }

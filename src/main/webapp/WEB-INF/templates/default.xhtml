@@ -2,7 +2,10 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>#{app.applicationName}</title>
@@ -76,6 +79,65 @@ body {
 		</footer>
 
 	</div>
+
+	<rich:popupPanel id="detail" width="600" height="400">
+		<f:facet name="header">详细信息</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#"
+				onclick="#{rich:component('detail')}.hide(); return false;"
+				style="color: inherit">
+                关闭
+            </h:outputLink>
+		</f:facet>
+		<h:panelGrid>
+			<h:form id="detailForm">
+				<div class="panel">
+
+					<div class="panel-body">
+						<dl class="dl-horizontal">
+							<dt>单号</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.orderNo}" />
+							</dd>
+							<dt>客户</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.customer}" />
+							</dd>
+
+							<dt>问题描述</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.content}"
+									escape="false" />
+							</dd>
+							<dt>状态</dt>
+							<dd>
+								<h:outputText
+									value="#{issueService.getStatus(issueService.currentIssue.status)}" />
+							</dd>
+							<dt>提报人</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.userName}" />
+							</dd>
+							<dt>提报时间</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.orderDate}" />
+							</dd>
+							<dt>解决人</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.solvedBy}" />
+							</dd>
+							<dt>解决时间</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.solvedOn}" />
+							</dd>
+						</dl>
+
+					</div>
+				</div>
+
+			</h:form>
+		</h:panelGrid>
+	</rich:popupPanel>
 
 	<h:outputScript name="/webjars/jquery/1.11.0/jquery.js" />
 	<h:outputScript name="/webjars/bootstrap/3.2.0/js/bootstrap.js" />
