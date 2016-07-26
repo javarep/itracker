@@ -1,9 +1,11 @@
 package com.dyrs.smjj.itracker.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,6 +34,11 @@ public class Issue extends OrderBase implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	@PostConstruct
+	public void init() {
+		comments = new ArrayList<Comment>();
 	}
 
 	@NotNull
@@ -63,6 +70,35 @@ public class Issue extends OrderBase implements Serializable {
 	private Date solvedOn;
 
 	private String solvedComment;
+
+	private String transferBy;
+
+	public String getTransferBy() {
+		return transferBy;
+	}
+
+	public void setTransferBy(String transferBy) {
+		this.transferBy = transferBy;
+	}
+
+	public Date getTransferOn() {
+		return transferOn;
+	}
+
+	public void setTransferOn(Date transferOn) {
+		this.transferOn = transferOn;
+	}
+
+	public String getTransferComment() {
+		return transferComment;
+	}
+
+	public void setTransferComment(String transferComment) {
+		this.transferComment = transferComment;
+	}
+
+	private Date transferOn;
+	private String transferComment;
 
 	private String orderNo;
 	private StatusEnum status;

@@ -1,8 +1,12 @@
 package com.dyrs.smjj.itracker.controller;
 
+import java.lang.reflect.Array;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -89,6 +93,12 @@ public class IssueService {
 		return plain;
 	}
 
+	public List<String> getFilterCategory() {
+		List<String> csList = new ArrayList<>(Arrays.asList("DIM", "HDS", "OCRM", "2020"));
+		csList.remove(loginBean.getCategory());
+		return csList;
+	}
+
 	public String getEngineer(String category) {
 		return application.getOnLineSolver().get(category);
 	}
@@ -149,10 +159,13 @@ public class IssueService {
 		return "success";
 	}
 
-	public void transferIssue(long id, String category) {
+	public void transferIssue(long id, String category, String comment) {
 		Issue issue = issueDao.find(id);
 		if (issue.getStatus() == StatusEnum.Waiting) {
 			issue.setCategory(category);
+			issue.setTransferBy(loginBean.getUsername());
+			issue.setTransferOn(new java.util.Date());
+			issue.setTransferComment(comment);
 		}
 
 		issueDao.edit(issue);

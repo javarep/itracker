@@ -1,5 +1,7 @@
 package com.dyrs.smjj.itracker.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,20 +22,22 @@ public class Comment extends Base {
 		this.id = id;
 	}
 
-	public String getRelationType() {
-		return relationType;
+	private Date commentDate;
+
+	public Date getCommentDate() {
+		return commentDate;
 	}
 
-	public void setRelationType(String relationType) {
-		this.relationType = relationType;
+	public void setCommentDate(Date commentDate) {
+		this.commentDate = commentDate;
 	}
 
-	public int getRelationId() {
-		return relationId;
+	public String getOperation() {
+		return operation;
 	}
 
-	public void setRelationId(int relationId) {
-		this.relationId = relationId;
+	public void setOperation(String operation) {
+		this.operation = operation;
 	}
 
 	public String getContent() {
@@ -44,12 +48,7 @@ public class Comment extends Base {
 		this.content = content;
 	}
 
-	@NotNull
-	private String relationType;
-
-	@NotNull
-	private int relationId;
-
+	private String operation;
 	@NotNull
 	private String content;
 }

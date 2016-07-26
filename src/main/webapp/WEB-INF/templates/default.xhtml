@@ -27,7 +27,6 @@
 body {
 	padding-top: 60px;
 }
-
 </style>
 </h:head>
 <h:body>
@@ -93,7 +92,15 @@ body {
 		<h:panelGrid>
 			<h:form id="detailForm">
 				<div class="panel">
+					<style type="text/css">
+.dl-horizontal dt {
+	width: 80px;
+}
 
+.dl-horizontal dd {
+	margin-left: 100px;
+}
+</style>
 					<div class="panel-body">
 						<dl class="dl-horizontal">
 							<dt>单号</dt>
@@ -149,6 +156,20 @@ body {
 							<dd>
 								<h:outputText value="#{issueService.currentIssue.solvedComment}" />
 							</dd>
+							<dt>移交人</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.transferBy}" />
+							</dd>
+							<dt>移交时间</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.transferOn}" />
+							</dd>
+							<dt>移交说明</dt>
+							<dd>
+								<h:outputText
+									value="#{issueService.currentIssue.transferComment}" />
+							</dd>
+
 						</dl>
 
 					</div>
