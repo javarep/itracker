@@ -63,11 +63,6 @@ public class LoginBean implements Serializable {
 	}
 
 	public String login() {
-		FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("login", this);
-		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
-				.getResponse();
-
 		user = userDao.findByCode(username);
 		if (user == null) {
 			user = new User();
@@ -75,10 +70,16 @@ public class LoginBean implements Serializable {
 			user.setName(username);
 			user.setPassword(password);
 			userDao.persist(user);
+		} else if (!user.getPassword().equals(password)) {
+			msg = "密码错误！";
+			return "login";
 		}
 
 		application.getOnLineSolver().put(category, username);
-
+		FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("login", this);
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+				.getResponse();
 		try {
 			response.sendRedirect("/itracker/faces/views/resolve.xhtml");
 		} catch (IOException e) {
