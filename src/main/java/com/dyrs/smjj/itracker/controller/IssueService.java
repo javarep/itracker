@@ -18,7 +18,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
+import org.jsoup.helper.StringUtil;
 
 import com.dyrs.smjj.itracker.control.IssueApplication;
 import com.dyrs.smjj.itracker.control.IssueDao;
@@ -59,8 +61,15 @@ public class IssueService {
 	}
 
 	public String onLoad() {
-		loginBean.setDepartment(newIssue.getDepartment());
-		loginBean.setUsername(newIssue.getUserName());
+		String username = newIssue.getUserName();
+		String department = newIssue.getDepartment();
+		if (StringUtils.isNotEmpty(username) && StringUtils.isNoneEmpty(department)) {
+			loginBean.setDepartment(newIssue.getDepartment());
+			loginBean.setUsername(newIssue.getUserName());
+			FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("login", null);
+		}
+
 		return "";
 	}
 
