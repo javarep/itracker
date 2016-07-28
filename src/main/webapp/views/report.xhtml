@@ -76,6 +76,12 @@
 									<h:inputText id="customer" value="#{newIssue.customer}"
 										class="form-control" />
 								</div>
+								<div class="form-group col-md-4">
+
+									<h:outputLabel class="control-label" for="projectNo">编号:</h:outputLabel>
+									<h:inputText id="projectNo" value="#{newIssue.projectNo}"
+										class="form-control" p:placeholder="输入项目编号" />
+								</div>
 								<!-- <div class="form-group col-md-4">
 									运维工程师:
 									<h:outputText id="engineer"
@@ -105,53 +111,35 @@
 								</div>
 							</div>
 							<div class="form-inline">
-								<div
-									class="form-group col-md-12  #{!content.valid? 'has-error' : ''}">
+								<div class="form-group col-md-12">
 
 									<h:outputLabel class="control-label" for="content">描述:</h:outputLabel>
-									<rich:editor id="content" binding="#{content}" height="270px;"
-										toolbar="CustomToolbar" value="#{newIssue.content}">
-
-										<f:facet name="config">
-
-        toolbar_CustomToolbar:
-
-        [
-
-        { name: 'document', items : [ 'NewPage','Preview' ] },
-
-        { name: 'clipboard', items : [ 'Cut','Copy','Paste','-','Undo','Redo' ] },
-
-        { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
-
-        { name: 'insert', items : [ 'Image', 'Flash', 'Table', 'HorizontalRule',
-
-                 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-
-                '/',
-
-        { name: 'styles', items : [ 'Styles','Format' ] },
-
-        { name: 'basicstyles', items : [ 'Bold','Italic','Strike','-','RemoveFormat' ] },
-
-        { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
-
-        { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
-
-        { name: 'tools', items : [ 'Maximize' ] }
-
-        ]
-
-        </f:facet>
-
-									</rich:editor>
-									<!-- <h:inputTextarea id="content" value="#{newIssue.content}"
-										p:placeholder="输入问题描述" class="form-control"
-										binding="#{content}" /> -->
-
-									<!-- <span
-									class="#{!content.valid ? 'glyphicon glyphicon-remove form-control-feedback' : ''}" />
-								<h:message for="content" errorClass="control-label has-error" /> -->
+									<h:inputTextarea styleClass="summernote form-control"
+										value="#{newIssue.content}" id="content"
+										style="width:0px;height:0px;" />
+									<script>
+										$(document).ready(function(){
+	        								$('.summernote').summernote({
+	        									  height: 150,   //set editable area's height
+	        									  codemirror: { // codemirror options
+	        									    theme: 'monokai'
+	        									  },
+	        									  placeholder: "第一行为标题，请在第一行对所提问题概述",
+	        									  toolbar: [
+	        									            ['style', ['style']],
+	        									            ['font', ['bold', 'italic', 'underline', 'clear']],
+	        									            ['fontname', ['fontname']],
+	        									            ['color', ['color']],
+	        									            ['para', ['ul', 'ol', 'paragraph']],
+	        									            ['height', ['height']],
+	        									            ['table', ['table']],
+	        									            ['insert', ['link', 'picture', 'hr']],
+	        									            ['view', ['fullscreen', 'codeview']],
+	        									            ['help', ['help']]
+	        									          ],
+      									    });
+										});
+  									</script>
 								</div>
 							</div>
 							<div class="form-inline col-md-12">
@@ -198,6 +186,14 @@
 							<li>DIM运维支持电话：</li>
 							<li>OCRM运维支持电话：</li>
 							<li>2020运维支持电话：</li>
+						</ul>
+						<br />
+						<br />
+						<ul class="list-group borderless"
+							style="font-size: 12px; color: red;">
+							<li class="list-group-item">为了能更快的解决您的问题：</li>
+							<li class="list-group-item">1、请提供关键信息：项目编号，订单编号，产品编号等<br />2、请将问题尽可能的细化并附截图，减少双方宝贵时间。<br />如：橱柜升级款的加价不对。如何不对？那个柜体出现问题了？加多加少？应该多少？
+							</li>
 						</ul>
 					</div>
 				</div>

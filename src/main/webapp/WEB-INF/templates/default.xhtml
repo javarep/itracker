@@ -16,7 +16,8 @@
 	<h:outputStylesheet name="/webjars/bootstrap/3.2.0/css/bootstrap.css" />
 	<h:outputStylesheet
 		name="/webjars/bootstrap/3.2.0/css/bootstrap-theme.css" />
-
+	<link href="/itracker/faces/javax.faces.resource/libs/summernote.css"
+		rel="stylesheet" type="text/css" />
 
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -80,7 +81,7 @@ body {
 
 	</div>
 
-	<rich:popupPanel id="detail" width="600" height="400">
+	<rich:popupPanel id="detail" width="900" height="500">
 		<f:facet name="header">详细信息</f:facet>
 		<f:facet name="controls">
 			<h:outputLink value="#"
@@ -110,6 +111,10 @@ body {
 							<dt>客户</dt>
 							<dd>
 								<h:outputText value="#{issueService.currentIssue.customer}" />
+							</dd>
+							<dt>项目编号</dt>
+							<dd>
+								<h:outputText value="#{issueService.currentIssue.projectNo}" />
 							</dd>
 							<dt>公司</dt>
 							<dd>
@@ -181,5 +186,7 @@ body {
 
 	<h:outputScript name="/webjars/jquery/1.11.0/jquery.js" />
 	<h:outputScript name="/webjars/bootstrap/3.2.0/js/bootstrap.js" />
+
+	<h:outputScript library="libs" name="summernote.min.js" />
 </h:body>
 </html>

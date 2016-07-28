@@ -1,6 +1,7 @@
 package com.dyrs.smjj.itracker.entity;
 
 import java.io.Serializable;
+import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -53,7 +55,7 @@ public class Issue extends OrderBase implements Serializable {
 	private String title;
 
 	@NotNull
-	@Size(min = 10, max = 1024, message = "最少10个字")
+	@Lob
 	private String content;
 
 	@OneToMany
@@ -107,6 +109,7 @@ public class Issue extends OrderBase implements Serializable {
 	private String job;
 	private String userName;
 	private String customer;
+	private String projectNo;
 
 	public String getCustomer() {
 		return customer;
@@ -255,5 +258,13 @@ public class Issue extends OrderBase implements Serializable {
 
 	public void setSolvedOn(Date solvedOn) {
 		this.solvedOn = solvedOn;
+	}
+
+	public String getProjectNo() {
+		return projectNo;
+	}
+
+	public void setProjectNo(String projectNo) {
+		this.projectNo = projectNo;
 	}
 }
