@@ -19,7 +19,7 @@
 				converter="javax.faces.Long" />
 		</a4j:jsFunction>
 		<rich:extendedDataTable value="#{reportIssues}" var="issue" id="table"
-			frozenColumns="2" selectionMode="none"
+			rows="10" frozenColumns="2" selectionMode="none"
 			onrowdblclick="selectRow('#{issue.id}')">
 			<f:facet name="noData">
                 没有符合条件的数据
@@ -92,5 +92,14 @@
 
 			</rich:column>
 		</rich:extendedDataTable>
+		<rich:dataScroller for="table"
+			rendered="#{fn:length(resolveIssues)> 10}">
+			<f:facet name="first">
+				<h:outputText value="首页" />
+			</f:facet>
+			<f:facet name="last">
+				<h:outputText value="末页" />
+			</f:facet>
+		</rich:dataScroller>
 	</h:form>
 </ui:composition>

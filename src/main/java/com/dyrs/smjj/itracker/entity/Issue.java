@@ -70,7 +70,8 @@ public class Issue extends OrderBase implements Serializable {
 	private User solvedBy;
 
 	private Date solvedOn;
-
+	
+	@Lob
 	private String solvedComment;
 
 	private String transferBy;

@@ -19,8 +19,8 @@
 				converter="javax.faces.Long" />
 		</a4j:jsFunction>
 		<rich:extendedDataTable value="#{resolveIssues}" var="issue" id="grid"
-			rows="10" rowClasses="firstrow,secondrow"
-			onrowdblclick="selectRow('#{issue.id}')" selectionMode="none">
+			rows="20" onrowdblclick="selectRow('#{issue.id}')"
+			selectionMode="none">
 			<f:facet name="noData">
                 没有符合条件的数据
             </f:facet>
@@ -107,7 +107,8 @@
 					disabled="#{issue.status!='Waiting'}" value="移交" />
 			</rich:column>
 		</rich:extendedDataTable>
-		<rich:dataScroller for="grid">
+		<rich:dataScroller for="grid"
+			rendered="#{fn:length(resolveIssues)> 20}">
 			<f:facet name="first">
 				<h:outputText value="首页" />
 			</f:facet>
