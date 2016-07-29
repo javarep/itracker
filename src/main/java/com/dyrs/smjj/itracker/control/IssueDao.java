@@ -21,7 +21,7 @@ public class IssueDao extends AbstractDao<Issue> {
 	public List<Issue> getReportIssues(LoginBean bean) {
 		return getEntityManager()
 				.createQuery(
-						"select u from Issue u where u.mobile = :mobile or u.department= :department and u.userName = :username order by u.status,u.orderDate desc")
+						"select u from Issue u where u.mobile = :mobile or u.department= :department and u.userName = :username order by CASE WHEN u.status = 4 THEN 1 ELSE 2 END,u.status,u.orderDate desc")
 				.setParameter("mobile", bean.getMobile()).setParameter("department", bean.getDepartment())
 				.setParameter("username", bean.getUsername()).getResultList();
 	}

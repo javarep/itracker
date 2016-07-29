@@ -106,6 +106,13 @@
 				<h:commandButton onclick="transfer('#{issue.id}');return false;"
 					disabled="#{issue.status!='Waiting'}" value="移交" />
 			</rich:column>
+			<rich:column width="50px;">
+				<f:facet name="header">
+					<h:outputText value="退回" />
+				</f:facet>
+				<h:commandButton onclick="returnIssue('#{issue.id}');return false;"
+					disabled="#{issue.status!='Waiting'}" value="退回" />
+			</rich:column>
 		</rich:extendedDataTable>
 		<rich:dataScroller for="grid"
 			rendered="#{fn:length(resolveIssues)> 20}">
@@ -190,6 +197,39 @@
 					style="width:100px;"
 					action="#{issueService.transferIssue(issueService.currentIssueId,category,comment)}"
 					oncomplete="location.reload();" />
+
+			</h:form>
+		</h:panelGrid>
+	</rich:popupPanel>
+
+
+	<a4j:jsFunction name="returnIssue"
+		oncomplete="#{rich:component('return')}.show()" render="return_form">
+		<a4j:param name="issueid" assignTo="#{issueService.currentIssueId}"
+			converter="javax.faces.Long" />
+	</a4j:jsFunction>
+	<rich:popupPanel id="return" width="450" height="260"
+		domElementAttachment="form">
+		<f:facet name="header">确定退回</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#"
+				onclick="#{rich:component('return')}.hide(); return false;"
+				style="color: inherit">
+                关闭
+            </h:outputLink>
+		</f:facet>
+		<h:panelGrid>
+			<h:form id="return_form">
+				<h:outputLabel>退回理由</h:outputLabel>
+				<h:inputHidden value="#{issueService.currentIssueId}" />
+				<h:inputTextarea value="#{comment}"
+					style="width:430px;height:135px;" />
+
+				<a4j:commandButton value="退回"
+					action="#{issueService.returnIssue(issueService.currentIssueId,comment)}"
+					oncomplete="location.reload();" />
+				<input type="button" value="取消"
+					onclick="#{rich:component('return')}.hide();return false" />
 
 			</h:form>
 		</h:panelGrid>

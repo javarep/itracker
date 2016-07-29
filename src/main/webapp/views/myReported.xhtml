@@ -89,7 +89,10 @@
 				<a4j:commandButton action="#{issueService.reOpenIssue(issue.id)}"
 					rendered="#{issue.status=='Completed'}" value="重开"
 					oncomplete="location.reload();" />
-
+				<h:commandButton action="#{issueService.reEdit(issue.id)}"
+					rendered="#{issue.status=='Refused'}" value="编辑">
+					<f:ajax render="reg" />
+				</h:commandButton>
 			</rich:column>
 		</rich:extendedDataTable>
 		<rich:dataScroller for="table"

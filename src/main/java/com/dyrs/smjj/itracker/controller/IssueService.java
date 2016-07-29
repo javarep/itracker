@@ -114,7 +114,16 @@ public class IssueService {
 
 	public void addNewIssus() throws Exception {
 		try {
-			createIssue(newIssue);
+			if (newIssue.getId() > 0) {
+				newIssue.setStatus(StatusEnum.Waiting);
+				DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+				String sdt = df.format(new Date(System.currentTimeMillis()));
+				newIssue.setOrderNo(newIssue.getCategory() + sdt);
+				newIssue.setOrderDate(new java.util.Date());
+				issueDao.edit(newIssue);
+			} else {
+				createIssue(newIssue);
+			}
 			// Init UserSession
 			loginBean.setMobile(newIssue.getMobile());
 			application.getWaitingIssue().put(newIssue.getCategory(), newIssue.getId());
@@ -150,10 +159,28 @@ public class IssueService {
 		return "success";
 	}
 
+	public void reEdit(long id) {
+		newIssue = issueDao.find(id);
+	}
+
 	public String completeIssue(long id, String comment) throws Exception {
 		Issue issue = issueDao.find(id);
 		if (issue.getStatus() == StatusEnum.Processing) {
 			issue.setStatus(StatusEnum.Completed);
+			issue.setSolvedBy(loginBean.getUser());
+			issue.setSolvedOn(new java.util.Date());
+			issue.setSolvedComment(comment);
+		}
+
+		issueDao.edit(issue);
+
+		return "success";
+	}
+
+	public String returnIssue(long id, String comment) throws Exception {
+		Issue issue = issueDao.find(id);
+		if (issue.getStatus() == StatusEnum.Waiting) {
+			issue.setStatus(StatusEnum.Refused);
 			issue.setSolvedBy(loginBean.getUser());
 			issue.setSolvedOn(new java.util.Date());
 			issue.setSolvedComment(comment);
@@ -184,6 +211,8 @@ public class IssueService {
 			return "处理中";
 		case Completed:
 			return "处理完成";
+		case Refused:
+			return "退回";
 
 		default:
 			return "未知";

@@ -7,6 +7,9 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:a4j="http://richfaces.org/a4j">
 	<ui:define name="content">
+		<h:form>
+			<a4j:jsFunction name="render_grid" render="grid" />
+		</h:form>
 		<script type="text/javascript">
 		// request permission on page load
 		document.addEventListener('DOMContentLoaded', function () {
@@ -32,7 +35,8 @@
 		    });
 			  notification.onclick = function () {
 		      		window.open(window.location.href);      
-		      }; 
+		      };
+		      render_grid(); 
 			 }
 		  }
 		}
@@ -45,8 +49,9 @@
 		<div class="page-header">
 			<h2>问题清单</h2>
 		</div>
+
 		<a4j:poll interval="5000" oncomplete="notifyMe(event)" enabled="true"
-			render="poll,grid,message" action="#{issueService.getIssues}" />
+			render="poll,message" action="#{issueService.getIssues}" />
 		<h:inputHidden value="#{issueService.getMessage()}" id="message" />
 		<h:form id="reg">
 			<ui:include src="mySolving.xhtml" />
