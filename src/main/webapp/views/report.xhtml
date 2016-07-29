@@ -113,7 +113,9 @@
 							<div class="form-inline">
 								<div class="form-group col-md-12">
 
-									<h:outputLabel class="control-label" for="content">描述:</h:outputLabel>
+									<h:outputLabel class="control-label" for="content">描述: <span
+											style="color: red;">请描述出出现问题的界面和出现问题的产品编号，如没有描述清楚，问题就不能得到及时解决。</span>
+									</h:outputLabel>
 									<h:inputTextarea styleClass="summernote form-control"
 										value="#{newIssue.content}" id="content"
 										style="width:0px;height:0px;" />
@@ -187,8 +189,7 @@
 							<li>OCRM运维支持电话：</li>
 							<li>2020运维支持电话：</li>
 						</ul>
-						<br />
-						<br />
+						<br /> <br />
 						<ul class="list-group borderless"
 							style="font-size: 12px; color: red;">
 							<li class="list-group-item">为了能更快的解决您的问题：</li>

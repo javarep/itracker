@@ -23,14 +23,17 @@
 		  if (Notification.permission !== "granted")
 		    Notification.requestPermission();
 		  else {
-		    var notification = new Notification('有新的问题', {
+			  var message=$("#message").val();
+
+			  if(message){
+			  var notification = new Notification('有新的问题', {
 		      icon: '../resources/images/logo.png',
 		      body: $("#message").val(),
 		    });
-
-		    notification.onclick = function () {
-		      window.open(window.location.href);      
-		    }; 
+			  notification.onclick = function () {
+		      		window.open(window.location.href);      
+		      }; 
+			 }
 		  }
 		}
 

@@ -80,7 +80,7 @@ public class IssueService {
 			long id = map.get(key);
 			return issueDao.find(id).getContent();
 		}
-		throw new Exception();
+		return null;
 	}
 
 	public String getMessage() {
@@ -133,13 +133,9 @@ public class IssueService {
 		if (issue.getStatus() == StatusEnum.Waiting) {
 			issue.setStatus(StatusEnum.Processing);
 			issue.setSolvedBy(loginBean.getUser());
-		} else if (issue.getStatus() == StatusEnum.Processing) {
-			issue.setStatus(StatusEnum.Completed);
-			// issue.setSolvedBy(loginBean.getUser());
-			issue.setSolvedOn(new java.util.Date());
+			issueDao.edit(issue);
 		}
 
-		issueDao.edit(issue);
 		return "success";
 	}
 
@@ -158,7 +154,7 @@ public class IssueService {
 		Issue issue = issueDao.find(id);
 		if (issue.getStatus() == StatusEnum.Processing) {
 			issue.setStatus(StatusEnum.Completed);
-			// issue.setSolvedBy(loginBean.getUser());
+			issue.setSolvedBy(loginBean.getUser());
 			issue.setSolvedOn(new java.util.Date());
 			issue.setSolvedComment(comment);
 		}
