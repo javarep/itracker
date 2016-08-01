@@ -19,7 +19,7 @@
 				converter="javax.faces.Long" />
 		</a4j:jsFunction>
 		<rich:extendedDataTable value="#{resolveIssues}" var="issue" id="grid"
-			rows="20" onrowdblclick="selectRow('#{issue.id}')"
+			eRender="ds" rows="20" onrowdblclick="selectRow('#{issue.id}')"
 			selectionMode="none">
 			<f:facet name="noData">
                 没有符合条件的数据
@@ -68,13 +68,13 @@
 				</f:facet>
 				<h:outputText value="#{issue.orderDate}" />
 			</rich:column>
-			<!-- <rich:column width="80px;">
+			<rich:column width="80px;">
 				<f:facet name="header">
 					<h:outputText value="状态" />
 				</f:facet>
 				<h:outputText value="#{issueService.getStatus(issue.status)}" />
-			</rich:column> -->
-			<rich:column filterValue="#{statusFilter}"
+			</rich:column>
+			<!-- <rich:column filterValue="#{statusFilter}"
 				filterExpression="#{fn:containsIgnoreCase(issue.status, issueService.getOriStatus(statusFilter))}"
 				filterType="custom" width="120px;">
 				<f:facet name="header">
@@ -82,12 +82,12 @@
 						<h:outputText value="状态 " />
 						<h:selectOneMenu value="#{statusFilter}">
 							<f:selectItems value="#{['等待处理','处理中','处理完成']}" />
-							<a4j:ajax render="grid" execute="@this" event="change" />
+							<a4j:ajax render="grid,ds" execute="@this" event="change" />
 						</h:selectOneMenu>
 					</h:panelGroup>
 				</f:facet>
 				<h:outputText value="#{issueService.getStatus(issue.status)}" />
-			</rich:column>
+			</rich:column> -->
 			<rich:column width="50px;">
 				<f:facet name="header">
 					<h:outputText value="操作" />
@@ -113,16 +113,18 @@
 				<h:commandButton onclick="returnIssue('#{issue.id}');return false;"
 					disabled="#{issue.status!='Waiting'}" value="退回" />
 			</rich:column>
+			<f:facet name="footer">
+				<rich:dataScroller for="grid" id="ds">
+					<f:facet name="first">
+						<h:outputText value="首页" />
+					</f:facet>
+					<f:facet name="last">
+						<h:outputText value="末页" />
+					</f:facet>
+				</rich:dataScroller>
+			</f:facet>
 		</rich:extendedDataTable>
-		<rich:dataScroller for="grid"
-			rendered="#{fn:length(resolveIssues)> 20}">
-			<f:facet name="first">
-				<h:outputText value="首页" />
-			</f:facet>
-			<f:facet name="last">
-				<h:outputText value="末页" />
-			</f:facet>
-		</rich:dataScroller>
+
 	</h:form>
 	<a4j:jsFunction name="oper"
 		oncomplete="#{rich:component('confirmation')}.show()"
