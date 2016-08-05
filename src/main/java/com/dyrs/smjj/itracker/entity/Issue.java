@@ -64,13 +64,14 @@ public class Issue extends OrderBase implements Serializable {
 	@OneToMany
 	private List<Comment> comments;
 
+	@NotNull
 	private String category;
 
 	@ManyToOne
 	private User solvedBy;
 
 	private Date solvedOn;
-	
+
 	@Lob
 	private String solvedComment;
 

@@ -66,8 +66,11 @@
 								<div class="form-group col-md-4">
 									<h:outputLabel class="control-label" for="category">类别:</h:outputLabel>
 									<h:selectOneMenu value="#{newIssue.category}" id="category"
-										class="form-control" style="height: 25px;">
-										<f:selectItems value="#{['DIM','HDS']}" />
+										class="form-control" style="height: 25px;" required="true"
+										requiredMessage="请选择类别">
+										<f:selectItems value="#{['请选择','DIM','HDS','主辅材补单']}"
+											var="entry" itemValue="#{entry.equals('请选择')?'':entry}"
+											itemLabel="#{entry}" />
 										<f:ajax event="change" render="engineer" immediate="true" />
 									</h:selectOneMenu>
 								</div>

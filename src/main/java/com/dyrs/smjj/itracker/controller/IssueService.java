@@ -69,7 +69,7 @@ public class IssueService {
 			FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("login", null);
 		}
-
+		newIssue.setCategory("请选择");
 		return "";
 	}
 
@@ -114,6 +114,9 @@ public class IssueService {
 
 	public void addNewIssus() throws Exception {
 		try {
+			if (newIssue.getCategory().equals("请选择")) {
+				newIssue.setCategory(null);
+			}
 			if (newIssue.getId() > 0) {
 				newIssue.setStatus(StatusEnum.Waiting);
 				DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
