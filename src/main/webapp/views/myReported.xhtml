@@ -65,6 +65,12 @@
 			</rich:column>
 			<rich:column>
 				<f:facet name="header">
+					<h:outputText value="解决说明" />
+				</f:facet>
+				<h:outputText value="#{issue.solvedComment}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
 					<h:outputText value="解决人" />
 				</f:facet>
 				<h:outputText value="#{issue.solvedBy.name}" />
@@ -74,12 +80,6 @@
 					<h:outputText value="解决时间" />
 				</f:facet>
 				<h:outputText value="#{issue.solvedOn}" />
-			</rich:column>
-			<rich:column>
-				<f:facet name="header">
-					<h:outputText value="解决说明" />
-				</f:facet>
-				<h:outputText value="#{issue.solvedComment}" />
 			</rich:column>
 
 			<rich:column width="55px;">
