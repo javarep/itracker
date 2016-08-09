@@ -31,9 +31,14 @@
 				<h:outputText value="#{issue.orderNo}" />
 			</rich:column>
 
-			<rich:column width="300px;">
+			<rich:column width="300px;" filterValue="#{contentFilter}"
+				filterExpression="#{fn:containsIgnoreCase(issueService.getOriginString(issue.content),contentFilter)}"
+				filterType="custom">
 				<f:facet name="header">
-					<h:outputText value="问题描述" />
+					<h:outputText value="问题描述        " />
+					<h:inputText value="#{contentFilter}">
+						<a4j:ajax event="blur" render="grid" execute="@this" />
+					</h:inputText>
 				</f:facet>
 				<h:outputText value="#{issueService.getOriginString(issue.content)}"
 					escape="false" />
