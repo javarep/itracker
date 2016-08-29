@@ -46,8 +46,16 @@
            notifyMe(even.data);
         };
 		</script>
-		<div class="page-header">
-			<h2>问题清单</h2>
+		<div class="page-header row">
+			<div class="col-md-11">
+				<h2>问题清单</h2>
+			</div>
+			<div class="col-md-1" style="margin-top: 38px;">
+				<h:form id="export_form">
+					<h:commandButton value="导出" action="#{issueService.export2Csv()}">
+					</h:commandButton>
+				</h:form>
+			</div>
 		</div>
 
 		<a4j:poll interval="5000" oncomplete="notifyMe(event)" enabled="true"

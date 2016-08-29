@@ -1,5 +1,6 @@
 package com.dyrs.smjj.itracker.controller;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.sql.Date;
 import java.text.DateFormat;
@@ -14,11 +15,16 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.jsoup.Jsoup;
 import org.jsoup.helper.StringUtil;
 
@@ -42,6 +48,8 @@ public class IssueService {
 
 	@Inject
 	private LoginBean loginBean;
+
+	private List<Issue> resolveIssues;
 
 	@Inject
 	private Event<Issue> issueEventSrc;
@@ -110,6 +118,53 @@ public class IssueService {
 
 	public String getEngineer(String category) {
 		return application.getOnLineSolver().get(category);
+	}
+
+	public void export2Csv() throws Exception {
+		Workbook workbook = new HSSFWorkbook();
+		Sheet sheet = workbook.createSheet("sheet title");
+		int rowIndex = 0;
+		resolveIssues = issueDao.getResolveIssues(loginBean.getCategory());
+		Row row = sheet.createRow(rowIndex++);
+		int columnIndex = 0;
+
+		row.createCell(columnIndex++).setCellValue("单号");
+		row.createCell(columnIndex++).setCellValue("分类");
+		row.createCell(columnIndex++).setCellValue("问题描述");
+
+		row.createCell(columnIndex++).setCellValue("客户");
+		row.createCell(columnIndex++).setCellValue("提报人");
+		row.createCell(columnIndex++).setCellValue("提报时间");
+		
+		row.createCell(columnIndex++).setCellValue("处理人");
+		row.createCell(columnIndex++).setCellValue("处理时间");
+		row.createCell(columnIndex++).setCellValue("处理意见");
+
+		for (Issue item : resolveIssues) {
+			row = sheet.createRow(rowIndex++);
+			columnIndex = 0;
+
+			row.createCell(columnIndex++).setCellValue(item.getOrderNo());
+			row.createCell(columnIndex++).setCellValue(item.getCategory());
+			row.createCell(columnIndex++).setCellValue(getOriginString(item.getContent()));
+
+			row.createCell(columnIndex++).setCellValue(item.getCustomer());
+			row.createCell(columnIndex++).setCellValue(item.getUserName());
+			row.createCell(columnIndex++)
+					.setCellValue(item.getOrderDate() != null ? item.getOrderDate().toString() : "");
+			
+			row.createCell(columnIndex++).setCellValue(item.getSolvedBy() != null ? item.getSolvedBy().getName() : "");
+			row.createCell(columnIndex++).setCellValue(item.getSolvedOn() != null ? item.getSolvedOn().toString() : "");
+			row.createCell(columnIndex++).setCellValue(item.getSolvedComment());
+			
+		}
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.responseReset();
+		externalContext.setResponseContentType("application/vnd.ms-excel");
+		externalContext.setResponseHeader("Content-Disposition", "attachment;filename=Issues.xls");
+		workbook.write(externalContext.getResponseOutputStream());
+		context.responseComplete();
 	}
 
 	public void addNewIssus() throws Exception {
