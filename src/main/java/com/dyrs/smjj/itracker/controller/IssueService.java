@@ -20,6 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -57,6 +58,7 @@ public class IssueService {
 	private long currentIssueId;
 	private String comment;
 	private Issue currentIssue;
+	private int unResolvedCount;
 
 	@Produces
 	@Named
@@ -74,6 +76,7 @@ public class IssueService {
 		if (StringUtils.isNotEmpty(username) && StringUtils.isNoneEmpty(department)) {
 			loginBean.setDepartment(newIssue.getDepartment());
 			loginBean.setUsername(newIssue.getUserName());
+			loginBean.setCategory(newIssue.getCategory());
 			FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("login", null);
 		}
@@ -135,7 +138,7 @@ public class IssueService {
 		row.createCell(columnIndex++).setCellValue("客户");
 		row.createCell(columnIndex++).setCellValue("提报人");
 		row.createCell(columnIndex++).setCellValue("提报时间");
-		
+
 		row.createCell(columnIndex++).setCellValue("处理人");
 		row.createCell(columnIndex++).setCellValue("处理时间");
 		row.createCell(columnIndex++).setCellValue("处理意见");
@@ -152,11 +155,11 @@ public class IssueService {
 			row.createCell(columnIndex++).setCellValue(item.getUserName());
 			row.createCell(columnIndex++)
 					.setCellValue(item.getOrderDate() != null ? item.getOrderDate().toString() : "");
-			
+
 			row.createCell(columnIndex++).setCellValue(item.getSolvedBy() != null ? item.getSolvedBy().getName() : "");
 			row.createCell(columnIndex++).setCellValue(item.getSolvedOn() != null ? item.getSolvedOn().toString() : "");
 			row.createCell(columnIndex++).setCellValue(item.getSolvedComment());
-			
+
 		}
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
@@ -291,11 +294,30 @@ public class IssueService {
 		}
 	}
 
+	public String[] getSubCategories() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		String category = ec.getRequestParameterMap().get("reg:category");
+		String[] subcategorys = new String[] { "请选择子类别" };
+		if (category != null) {
+			switch (category) {
+			case "DIM":
+				subcategorys = (String[]) ArrayUtils.addAll(subcategorys,
+						new String[] { "渲染", "报价领料", "建模", "变更", "施工图", "木作" });
+				break;
+			default:
+				break;
+			}
+		}
+
+		return subcategorys;
+	}
+
 	public void createIssue(Issue issue) throws Exception {
 		DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
 		String sdt = df.format(new Date(System.currentTimeMillis()));
 		issue.setOrderNo(issue.getCategory() + sdt);
 		issue.setOrderDate(new java.util.Date());
+		issue.setIssueType("");
 		issueDao.persist(issue);
 		issueEventSrc.fire(issue);
 	}
@@ -342,4 +364,23 @@ public class IssueService {
 		this.comment = comment;
 	}
 
+	public int getUnResolvedCount() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		String category = ec.getRequestParameterMap().get("reg:category");
+		List<Issue> issues = issueDao.getResolveIssues(category);
+		if (issues == null) {
+			return 999;
+		}
+		unResolvedCount = (int) issues.stream()
+				.filter(r -> r.getStatus() == StatusEnum.Waiting || r.getStatus() == StatusEnum.Processing).count();
+		return unResolvedCount;
+	}
+
+	public void setUnResolvedCount(int unResolvedCount) {
+		this.unResolvedCount = unResolvedCount;
+	}
+
+	public String getCurrentUser() {
+		return application.getCurrentUser().get("HDS");
+	}
 }

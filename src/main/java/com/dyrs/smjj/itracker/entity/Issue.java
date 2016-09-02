@@ -67,6 +67,19 @@ public class Issue extends OrderBase implements Serializable {
 	@NotNull
 	private String category;
 
+	private String subCategory;
+
+	@NotNull
+	private String issueType;
+
+	public String getIssueType() {
+		return issueType;
+	}
+
+	public void setIssueType(String issueType) {
+		this.issueType = issueType;
+	}
+
 	@ManyToOne
 	private User solvedBy;
 
@@ -112,6 +125,25 @@ public class Issue extends OrderBase implements Serializable {
 	private String userName;
 	private String customer;
 	private String projectNo;
+
+	private long ownerId;
+	public long getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(long ownerId) {
+		this.ownerId = ownerId;
+	}
+
+	public boolean isHolding() {
+		return holding;
+	}
+
+	public void setHolding(boolean holding) {
+		this.holding = holding;
+	}
+
+	private boolean holding;
 
 	public String getCustomer() {
 		return customer;
@@ -268,5 +300,13 @@ public class Issue extends OrderBase implements Serializable {
 
 	public void setProjectNo(String projectNo) {
 		this.projectNo = projectNo;
+	}
+
+	public String getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(String subCategory) {
+		this.subCategory = subCategory;
 	}
 }

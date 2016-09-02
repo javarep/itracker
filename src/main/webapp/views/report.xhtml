@@ -71,7 +71,17 @@
 										<f:selectItems value="#{['请选择','DIM','HDS','主辅材补单']}"
 											var="entry" itemValue="#{entry.equals('请选择')?'':entry}"
 											itemLabel="#{entry}" />
-										<f:ajax event="change" render="engineer" immediate="true" />
+										<f:ajax event="change" render="subCategory Add"
+											immediate="true" />
+									</h:selectOneMenu>
+								</div>
+								<div class="form-group col-md-4">
+									<h:outputLabel class="control-label" for="subCategory">分类:</h:outputLabel>
+									<h:selectOneMenu value="#{newIssue.subCategory}"
+										id="subCategory" class="form-control" style="height: 25px;">
+										<f:selectItems value="#{issueService.getSubCategories()}"
+											var="entry" itemValue="#{entry.equals('请选择类别')?'':entry}"
+											itemLabel="#{entry}" />
 									</h:selectOneMenu>
 								</div>
 								<div class="form-group col-md-4">
@@ -151,7 +161,8 @@
 							<div class="form-inline col-md-12">
 								<div style="margin-top: 6px;">
 									<h:commandButton id="Add" action="#{issueService.addNewIssus}"
-										value="问题提报" styleClass="btn btn-primary center-block" />
+										value="问题提报 ，您前面还有#{issueService.unResolvedCount}个问题在排除"
+										styleClass="btn btn-primary center-block" />
 								</div>
 							</div>
 						</h:form>
@@ -171,42 +182,44 @@
 			</div>
 			<div class="col-md-4">
 				<div class="panel panel-default" style="position: fixed; width: 31%">
-					<div>
+					<!-- <div>
 						
 						<iframe id="iframe0"
 							src="http://192.168.0.223:8123/news-events/news/" frameborder="0"
 							style='width: 100%; height: 500px;'></iframe>
-					</div>
-					<!-- <div class="panel-heading">
+					</div> -->
+					<div class="panel-heading">
 						<h2 class="panel-title">支持文档</h2>
 					</div>
 					<div>
 						<ul>
 							<li><a href="../resources/docs/速美集家信息系统-HDS操作手册.pptx">速美集家信息系统-HDS操作手册</a></li>
-							<li><a
-								href="http://math.hws.edu/eck/cs124/downloads/javanotes6-linked.pdf">HDS
-									常见问题</a></li>
 						</ul>
-						<br />
-							<ul>
-							<li></li>
-							<li></li>
+						<ul>
+							<li><a href="../resources/docs/DIM常见问题与解答F-Q0702.docx">DIM+常见问题与解答F-Q0702</a></li>
 						</ul>
 
 						<ul style="font-size: 14px; color: blue;">
-							<li>HDS运维支持电话：010-87156813 (9:00 - 18:00)</li>
+							<li>HDS运维支持电话：<h:outputText
+									value="#{issueService.getCurrentUser()}" /> (9:00 - 18:00)
+							</li>
 							<li>DIM运维支持电话：</li>
 							<li>OCRM运维支持电话：</li>
 							<li>2020运维支持电话：</li>
 						</ul>
-						<br /> <br />
+						<br />
+						<ul class="list-group borderless"
+							style="font-size: 12px; color: red;">
+							<li class="list-group-item">系统运维响应时间：<br />大区系统主管接到问题提报后，如不能解决的转到集团信息化进行处理，早9：00-18：00工作时间内，集团信息化在4小时内给予响应处理，当日问题当日解决，非工作时间提报的，次日9：00后4小时内解决，如因开发问题不能解决的，会给予提报人QQ反馈具体的解决时间。集团信息化解决问题的原则是按照提报问题的先后顺序进行依次解决，如因客户原因需加急处理的，由大区系统主管判定后，电话与集团信息化值班工程师沟通解决。
+							</li>
+						</ul>
 						<ul class="list-group borderless"
 							style="font-size: 12px; color: red;">
 							<li class="list-group-item">为了能更快的解决您的问题：</li>
 							<li class="list-group-item">1、请提供关键信息：项目编号，订单编号，产品编号等<br />2、请将问题尽可能的细化并附截图，减少双方宝贵时间。<br />如：橱柜升级款的加价不对。如何不对？那个柜体出现问题了？加多加少？应该多少？
 							</li>
 						</ul>
-					</div> -->
+					</div>
 				</div>
 			</div>
 		</div>

@@ -9,7 +9,7 @@ package com.dyrs.smjj.itracker.entity;
  */
 public enum StatusEnum {
 	Waiting(0), Processing(1), Completed(2), Repeat(3), Refused(4);
-	
+
 	private final int id;
 
 	StatusEnum(int id) {
