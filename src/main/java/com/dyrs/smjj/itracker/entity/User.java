@@ -38,6 +38,8 @@ public class User extends Base implements Serializable {
 	private String QQ;
 	private String mobile;
 
+	private boolean isMaster;
+
 	public String getCode() {
 		return code;
 	}
@@ -76,5 +78,13 @@ public class User extends Base implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isMaster() {
+		return isMaster;
+	}
+
+	public void setMaster(boolean master) {
+		isMaster = master;
 	}
 }

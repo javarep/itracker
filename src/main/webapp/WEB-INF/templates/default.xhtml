@@ -1,215 +1,229 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:rich="http://richfaces.org/rich"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>#{app.applicationName}</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>#{app.applicationName}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
 
-	<h:outputStylesheet name="/webjars/bootstrap/3.2.0/css/bootstrap.css" />
-	<h:outputStylesheet
-		name="/webjars/bootstrap/3.2.0/css/bootstrap-theme.css" />
-	<link href="/itracker/faces/javax.faces.resource/libs/summernote.css"
-		rel="stylesheet" type="text/css" />
+    <h:outputStylesheet name="/webjars/bootstrap/3.2.0/css/bootstrap.css"/>
+    <h:outputStylesheet
+            name="/webjars/bootstrap/3.2.0/css/bootstrap-theme.css"/>
+    <link href="/itracker/faces/javax.faces.resource/libs/summernote.css"
+          rel="stylesheet" type="text/css"/>
 
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-	<style>
-body {
-	padding-top: 60px;
-}
-</style>
+    <style>
+        body {
+            padding-top: 60px;
+        }
+    </style>
 </h:head>
 <h:body>
-	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<div class="navbar-header" style="margin-top: 7px;">
-				<h:link outcome="/index">
-					<h:graphicImage library="images" name="logo.png"
-						style="width:80px;" />
-				</h:link>
-			</div>
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="#{view.viewId =='/views/report.xhtml' ? 'active':''}"><h:link
-							outcome="/views/report" value="提交问题" /></li>
-					<li class="#{view.viewId =='/views/resolve.xhtml' ? 'active':''}"><h:link
-							outcome="/views/resolve" value="处理问题" /></li>
-				</ul>
-				<h:form>
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false">#{loginBean.username} <span
-								class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">个人</a></li>
-								<li><a href="#">修改密码</a></li>
-								<li><a href="#">我提的问题</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="#"
-									onclick="#{rich:component('department')}.show()">选择负责公司</a></li>
-								<li role="separator" class="divider"></li>
-								<li><h:commandLink value="退出" action="#{loginBean.logout}" /></li>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header" style="margin-top: 7px;">
+                <h:link outcome="/index">
+                    <h:graphicImage library="images" name="logo.png"
+                                    style="width:80px;"/>
+                </h:link>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="#{view.viewId =='/views/report.xhtml' ? 'active':''}"><h:link
+                            outcome="/views/report" value="提交问题"/></li>
+                    <li class="#{view.viewId =='/views/resolve.xhtml' ? 'active':''}"><h:link
+                            outcome="/views/resolve" value="处理问题"/></li>
+                </ul>
+                <h:form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                                data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                aria-expanded="false">#{loginBean.username} <span
+                                class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">个人</a></li>
+                                <li><a href="#">修改密码</a></li>
+                                <li><a href="#">我提的问题</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#"
+                                       onclick="#{rich:component('department')}.show()">选择负责公司</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><h:commandLink value="退出" action="#{loginBean.logout}"/></li>
 
-							</ul></li>
-					</ul>
-				</h:form>
-			</div>
-		</div>
-	</div>
+                            </ul>
+                        </li>
+                    </ul>
+                </h:form>
+            </div>
+        </div>
+    </div>
 
-	<div class="container" style="min-width: 1120px;">
+    <div class="container" style="min-width: 1120px;">
 
-		<ui:insert name="content">
+        <ui:insert name="content">
             [Template content will be inserted here]
         </ui:insert>
-		<hr />
+        <hr/>
 
 
-		<footer>
-		<p class="text-muted">&copy; Company 2016 东易日盛家居装饰集团股份有限公司</p>
-		</footer>
+        <footer>
+            <p class="text-muted">&copy; Company 2016 东易日盛家居装饰集团股份有限公司</p>
+        </footer>
 
-	</div>
-	<rich:popupPanel id="department" width="600" height="400">
-		<f:facet name="header">选择负责公司</f:facet>
-		<f:facet name="controls">
-			<h:outputLink value="#"
-				onclick="#{rich:component('department')}.hide(); return false;"
-				style="color: inherit">
+    </div>
+    <rich:popupPanel id="department" width="620" height="460">
+        <f:facet name="header">选择负责公司</f:facet>
+        <f:facet name="controls">
+            <h:outputLink value="#"
+                          onclick="#{rich:component('department')}.hide(); return false;"
+                          style="color: inherit">
                 关闭
             </h:outputLink>
-		</f:facet>
+        </f:facet>
 
-		<rich:pickList>
-			<f:selectItem itemLabel="Option 1" itemValue="1" />
-			<f:selectItem itemLabel="Option 2" itemValue="2" />
-			<f:selectItem itemLabel="Option 3" itemValue="3" />
-			<f:selectItem itemLabel="Option 4" itemValue="4" />
-			<f:selectItem itemLabel="Option 5" itemValue="5" />
-		</rich:pickList>
-	</rich:popupPanel>
-	<rich:popupPanel id="detail" width="900" height="500">
-		<f:facet name="header">详细信息</f:facet>
-		<f:facet name="controls">
-			<h:outputLink value="#"
-				onclick="#{rich:component('detail')}.hide(); return false;"
-				style="color: inherit">
+        <h:form id="form_pick">
+
+            <rich:panel style="width:600px;display:block; text-align:center">
+
+                <rich:pickList id="pick" value="#{issueService.selectedDeps}" sourceCaption="未负责的公司"
+                               targetCaption="负责的公司" listWidth="200px" listHeight="300px">
+                    <f:selectItems value="#{issueService.unSelectDeps}" var="dep" itemValue="#{dep}"
+                                   itemLabel="#{dep}"/>
+                    <f:converter converterId="PickConverter"/>
+                </rich:pickList>
+            </rich:panel>
+
+            <div class="form-inline col-md-12">
+                <div style="margin-top: 6px;">
+                    <h:commandButton action="#{issueService.updateUserDep}"
+                                     value="submit"
+                                     styleClass="btn btn-primary center-block"/>
+                </div>
+            </div>
+        </h:form>
+    </rich:popupPanel>
+    <rich:popupPanel id="detail" width="900" height="500">
+        <f:facet name="header">详细信息</f:facet>
+        <f:facet name="controls">
+            <h:outputLink value="#"
+                          onclick="#{rich:component('detail')}.hide(); return false;"
+                          style="color: inherit">
                 关闭
             </h:outputLink>
-		</f:facet>
-		<h:panelGrid>
-			<h:form id="detailForm">
-				<div class="panel">
-					<style type="text/css">
-.dl-horizontal dt {
-	width: 80px;
-}
+        </f:facet>
+        <h:panelGrid>
+            <h:form id="detailForm">
+                <div class="panel">
+                    <style type="text/css">
+                        .dl-horizontal dt {
+                            width: 80px;
+                        }
 
-.dl-horizontal dd {
-	margin-left: 100px;
-}
-</style>
-					<div class="panel-body">
-						<dl class="dl-horizontal">
-							<dt>单号</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.orderNo}" />
-							</dd>
-							<dt>子类别</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.subCategory}" />
-							</dd>
-							<dt>客户</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.customer}" />
-							</dd>
-							<dt>项目编号</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.projectNo}" />
-							</dd>
-							<dt>公司</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.department}" />
-							</dd>
-							<dt>问题描述</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.content}"
-									escape="false" />
-							</dd>
-							<dt>状态</dt>
-							<dd>
-								<h:outputText
-									value="#{issueService.getStatus(issueService.currentIssue.status)}" />
-							</dd>
-							<dt>提报人</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.userName}" />
-							</dd>
-							<dt>提报时间</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.orderDate}" />
-							</dd>
-							<dt>提报人QQ</dt>
-							<dd>
-								<h:outputLink value="tencent://message/">
-									<h:outputText value="联系#{issueService.currentIssue.QQ}" />
-									<f:param name="uin" value="#{issueService.currentIssue.QQ}" />
-								</h:outputLink>
-							</dd>
-							<dt>提报人手机</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.mobile}" />
-							</dd>
-							<dt>解决人</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.solvedBy.name}" />
-							</dd>
-							<dt>解决时间</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.solvedOn}" />
-							</dd>
-							<dt>解决说明</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.solvedComment}" />
-							</dd>
-							<dt>移交人</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.transferBy}" />
-							</dd>
-							<dt>移交时间</dt>
-							<dd>
-								<h:outputText value="#{issueService.currentIssue.transferOn}" />
-							</dd>
-							<dt>移交说明</dt>
-							<dd>
-								<h:outputText
-									value="#{issueService.currentIssue.transferComment}" />
-							</dd>
+                        .dl-horizontal dd {
+                            margin-left: 100px;
+                        }
+                    </style>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>单号</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.orderNo}"/>
+                            </dd>
+                            <dt>子类别</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.subCategory}"/>
+                            </dd>
+                            <dt>客户</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.customer}"/>
+                            </dd>
+                            <dt>项目编号</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.projectNo}"/>
+                            </dd>
+                            <dt>公司</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.department}"/>
+                            </dd>
+                            <dt>问题描述</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.content}"
+                                              escape="false"/>
+                            </dd>
+                            <dt>状态</dt>
+                            <dd>
+                                <h:outputText
+                                        value="#{issueService.getStatus(issueService.currentIssue.status)}"/>
+                            </dd>
+                            <dt>提报人</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.userName}"/>
+                            </dd>
+                            <dt>提报时间</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.orderDate}"/>
+                            </dd>
+                            <dt>提报人QQ</dt>
+                            <dd>
+                                <h:outputLink value="tencent://message/">
+                                    <h:outputText value="联系#{issueService.currentIssue.QQ}"/>
+                                    <f:param name="uin" value="#{issueService.currentIssue.QQ}"/>
+                                </h:outputLink>
+                            </dd>
+                            <dt>提报人手机</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.mobile}"/>
+                            </dd>
+                            <dt>解决人</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.solvedBy.name}"/>
+                            </dd>
+                            <dt>解决时间</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.solvedOn}"/>
+                            </dd>
+                            <dt>解决说明</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.solvedComment}"/>
+                            </dd>
+                            <dt>移交人</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.transferBy}"/>
+                            </dd>
+                            <dt>移交时间</dt>
+                            <dd>
+                                <h:outputText value="#{issueService.currentIssue.transferOn}"/>
+                            </dd>
+                            <dt>移交说明</dt>
+                            <dd>
+                                <h:outputText
+                                        value="#{issueService.currentIssue.transferComment}"/>
+                            </dd>
 
-						</dl>
+                        </dl>
 
-					</div>
-				</div>
+                    </div>
+                </div>
 
-			</h:form>
-		</h:panelGrid>
-	</rich:popupPanel>
+            </h:form>
+        </h:panelGrid>
+    </rich:popupPanel>
 
-	<h:outputScript name="/webjars/jquery/1.11.0/jquery.js" />
-	<h:outputScript name="/webjars/bootstrap/3.2.0/js/bootstrap.js" />
+    <h:outputScript name="/webjars/jquery/1.11.0/jquery.js"/>
+    <h:outputScript name="/webjars/bootstrap/3.2.0/js/bootstrap.js"/>
 
-	<h:outputScript library="libs" name="summernote.min.js" />
+    <h:outputScript library="libs" name="summernote.min.js"/>
 </h:body>
 </html>

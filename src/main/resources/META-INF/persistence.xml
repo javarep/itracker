@@ -5,10 +5,10 @@
 	version="2.1">
 	<persistence-unit name="itracker">
 		<jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source>
-		<class>com.dyrs.smjj.itracker.entity.Issue</class>
-		<class>com.dyrs.smjj.itracker.entity.User</class>
-		<class>com.dyrs.smjj.itracker.entity.Attachment</class>
-		<class>com.dyrs.smjj.itracker.entity.Comment</class>
+		<!--<class>com.dyrs.smjj.itracker.entity.Issue</class>-->
+		<!--<class>com.dyrs.smjj.itracker.entity.User</class>-->
+		<!--<class>com.dyrs.smjj.itracker.entity.Attachment</class>-->
+		<!--<class>com.dyrs.smjj.itracker.entity.Comment</class>-->
 		<properties>
 			<!-- <property name="javax.persistence.schema-generation.database.action"
 				value="drop-and-create" /> -->

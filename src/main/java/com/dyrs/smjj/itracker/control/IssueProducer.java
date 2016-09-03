@@ -1,6 +1,7 @@
 package com.dyrs.smjj.itracker.control;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -15,34 +16,40 @@ import com.dyrs.smjj.itracker.filter.LoginBean;
 
 @RequestScoped
 public class IssueProducer {
-	@Inject
-	private IssueDao issueDao;
+    @Inject
+    private IssueDao issueDao;
 
-	private List<Issue> reportIssues;
-	private List<Issue> resolveIssues;
+    private List<Issue> reportIssues;
+    private List<Issue> resolveIssues;
 
-	@Inject
-	private LoginBean loginBean;
+    @Inject
+    private LoginBean loginBean;
 
-	@PostConstruct
-	public void retriveAllIssues() {
-		reportIssues = issueDao.getReportIssues(loginBean);
-		resolveIssues = issueDao.getResolveIssues(loginBean.getCategory());
-	}
+    @PostConstruct
+    public void retriveAllIssues() {
+        reportIssues = issueDao.getReportIssues(loginBean);
+        resolveIssues = issueDao.getResolveIssues(loginBean.getCategory());
 
-	@Produces
-	@Named
-	public List<Issue> getReportIssues() {
-		return reportIssues;
-	}
+        if (loginBean.getUser().isMaster()) {
+            resolveIssues = resolveIssues.stream().filter(ri -> ri.isHolding() && ri.getOwnerId() == loginBean.getUser().getId()).collect(Collectors.toList());
+        } else {
+            resolveIssues = resolveIssues.stream().filter(ri -> !ri.isHolding()).collect(Collectors.toList());
+        }
+    }
 
-	@Produces
-	@Named
-	public List<Issue> getResolveIssues() {
-		return resolveIssues;
-	}
+    @Produces
+    @Named
+    public List<Issue> getReportIssues() {
+        return reportIssues;
+    }
 
-	public void onListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Issue member) {
-		retriveAllIssues();
-	}
+    @Produces
+    @Named
+    public List<Issue> getResolveIssues() {
+        return resolveIssues;
+    }
+
+    public void onListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Issue member) {
+        retriveAllIssues();
+    }
 }
